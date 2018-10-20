@@ -31,7 +31,8 @@
             android:name=".RegisterForm"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".MainPage" />
+        <activity android:name=".MainPage"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="preloaded_fonts"
