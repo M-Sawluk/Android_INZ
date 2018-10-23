@@ -9,6 +9,7 @@ import android.text.Html
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
+import com.inzynier.michau.przedszkoletecza.slider.SliderAdapter
 import kotlinx.android.synthetic.main.activity_main_page.*
 
 class MainPage : AppCompatActivity() {
@@ -23,7 +24,8 @@ class MainPage : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         val slideViewPager = slideViewPager
-        slideViewPager.adapter = SliderAdapter(this, this)
+        val sliderAdapter = SliderAdapter(this, this)
+        slideViewPager.adapter = sliderAdapter
         addDots(0)
         dotsListener()
 
@@ -32,6 +34,10 @@ class MainPage : AppCompatActivity() {
         }
         left.setOnClickListener {
             slideViewPager.currentItem = currentPage - 1
+        }
+
+        changeChild.setOnClickListener {
+            sliderAdapter.notifyDataSetChanged(slideViewPager.currentItem)
         }
     }
 

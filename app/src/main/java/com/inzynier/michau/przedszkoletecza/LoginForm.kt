@@ -2,7 +2,6 @@ package com.inzynier.michau.przedszkoletecza
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.os.StrictMode
 import android.support.v7.app.AlertDialog
@@ -14,8 +13,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 import org.json.JSONObject
-import android.app.Activity
-
+import com.inzynier.michau.przedszkoletecza.utils.Consts
 
 
 class LoginForm : AppCompatActivity() {
@@ -68,7 +66,7 @@ class LoginForm : AppCompatActivity() {
             builder.setMessage("Poprawne logowanie, token zostal przyznany na 30 dni.")
                     .setCancelable(false)
                     .setPositiveButton("OK") { dialog, id ->
-                        val intent = Intent(this, MainPage::class.java)
+                        val intent = Intent(this, LoginPage::class.java)
                         startActivity(intent)
                     }
             val alert = builder.create()

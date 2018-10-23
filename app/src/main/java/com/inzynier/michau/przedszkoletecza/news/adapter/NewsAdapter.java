@@ -32,16 +32,6 @@ public class NewsAdapter extends ArrayAdapter<NewsModel> {
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = layoutInflater.inflate(R.layout.news_layout, null);
-
-//        layout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(activity.getApplicationContext(), AddActivity.class);
-//                intent.putExtra("phone", phones.get(position));
-//                activity.startActivity(intent);
-//            }
-//        });
-
         TextView author = convertView.findViewById(R.id.news_author);
         TextView date = convertView.findViewById(R.id.news_date);
         TextView title = convertView.findViewById(R.id.news_title);

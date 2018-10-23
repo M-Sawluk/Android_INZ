@@ -1,4 +1,4 @@
-package com.inzynier.michau.przedszkoletecza
+package com.inzynier.michau.przedszkoletecza.utils
 
 class Consts {
     companion object {

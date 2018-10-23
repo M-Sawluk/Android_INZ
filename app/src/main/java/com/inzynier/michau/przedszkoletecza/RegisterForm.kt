@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.WindowManager
+import com.inzynier.michau.przedszkoletecza.utils.Consts
 import kotlinx.android.synthetic.main.activity_register_form.*
 import okhttp3.MediaType
 import okhttp3.OkHttpClient

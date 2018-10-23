@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/startWindow"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login"
-    android:id="@+id/startWindow"
-    tools:context=".LoginPage"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".LoginPage">
 
 
     <LinearLayout
@@ -55,10 +55,30 @@
 
 
     <LinearLayout
+        android:id="@+id/space"
         android:layout_width="match_parent"
-        android:layout_height="223dp"
-        android:orientation="horizontal" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/load"
+            android:layout_width="match_parent"
+            android:layout_height="191dp"
+            android:src="@drawable/loader15"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/pobieram"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/anton"
+            android:text="Pobieram dane.."
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -68,9 +88,9 @@
 
         <Button
             android:id="@+id/zaloguj"
-            android:layout_margin="10dp"
             android:layout_width="148dp"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:background="@drawable/ripple_effect"
             android:elevation="0dp"
             android:text="Zaloguj się"
@@ -100,7 +120,6 @@
             tools:layout_editor_absoluteY="571dp" />
 
     </LinearLayout>
-
 
 
 </LinearLayout>
