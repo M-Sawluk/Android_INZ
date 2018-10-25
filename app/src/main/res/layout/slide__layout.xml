@@ -62,41 +62,41 @@
                         android:id="@+id/child_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="casual"
                         android:text="Imie:"
                         android:textAlignment="center"
                         android:textColor="@android:color/holo_orange_dark"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/child_pesel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="casual"
                         android:text="Pesel:"
                         android:textAlignment="center"
                         android:textColor="@android:color/holo_orange_dark"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/child_gender"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="casual"
                         android:text="Płeć:"
                         android:textAlignment="center"
                         android:textColor="@android:color/holo_orange_dark"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/place_and_birth_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="casual"
                         android:text="Data ur."
                         android:textAlignment="center"
                         android:textColor="@android:color/holo_orange_dark"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -111,41 +111,41 @@
                         android:id="@+id/name_value"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="casual"
                         android:text="TextView"
                         android:textAlignment="center"
                         android:textColor="@color/colorAccent"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/pesel_value"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="casual"
                         android:text="TextView"
                         android:textAlignment="center"
                         android:textColor="@color/colorAccent"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/gender_value"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="casual"
                         android:text="TextView"
                         android:textAlignment="center"
                         android:textColor="@color/colorAccent"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/date_and_date_birth"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="casual"
                         android:text="TextView"
                         android:textAlignment="center"
                         android:textColor="@color/colorAccent"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -162,54 +162,56 @@
         <LinearLayout
             android:id="@+id/child_buttons_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/news_background"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/absence"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:fontFamily="casual"
+                android:text="Nieobecności"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_orange_dark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/button4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/news_ripple"
-                    android:text="Postęp Dziecka" />
-            </LinearLayout>
+            <com.prolificinteractive.materialcalendarview.MaterialCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/calendarView"
+                android:layout_width="260dp"
+                android:layout_height="260dp"
+                app:mcv_selectionColor="#00F"
+                app:mcv_showOtherDates="all" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/button5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/news_ripple"
-                    android:text="Dziennik Uwag" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/button6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/news_ripple"
-                    android:text="Monitoring nieobecności" />
-            </LinearLayout>
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/child_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/news_ripple"
+                android:text="Dziennik Uwag" />
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/news_ripple"
+                android:text="Postęp Dziecka" />
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/annLayout"
             android:layout_width="match_parent"
@@ -239,7 +241,7 @@
 
             <ListView
                 android:id="@+id/Annoucments"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:dividerHeight="1dp"
                 android:footerDividersEnabled="true"
@@ -266,7 +268,7 @@
 
                 <TextView
                     android:id="@+id/NewsText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/anton"
                     android:text="Wiadomości  "
@@ -279,7 +281,7 @@
 
             <ListView
                 android:id="@+id/news"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>

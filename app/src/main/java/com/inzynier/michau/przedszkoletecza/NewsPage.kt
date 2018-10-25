@@ -3,6 +3,7 @@ package com.inzynier.michau.przedszkoletecza
 import android.content.Intent
 import android.os.Bundle
 import android.os.StrictMode
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.WindowManager
 import com.inzynier.michau.przedszkoletecza.data.fetcher.DataFetcher
@@ -18,7 +19,7 @@ class NewsPage : AppCompatActivity() {
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
 
-        val id = intent.getIntExtra("id", 0)
+        val id = intent.getIntExtra("news_id", 0)
         val newsModel = DataFetcher.getFullNews(this)[id]
         news_title_.text = newsModel.title
         news_author_.text = newsModel.author
@@ -29,9 +30,18 @@ class NewsPage : AppCompatActivity() {
         news_data_.text = formattedDate
 
         delete_news.setOnClickListener {
-            RequestHelper
-                    .makeRequest("/deleteMessage/${newsModel.id}", this)
-            startActivity(Intent(this, MainPage::class.java))
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage("Czy na pewno chcesz usunąć tą wiadomość")
+                    .setCancelable(true)
+                    .setPositiveButton("Ok") { dialog, id ->
+                        RequestHelper
+                                .makeRequest("/deleteMessage/${newsModel.id}", this)
+                        startActivity(Intent(this, MainPage::class.java))
+                    }.setNegativeButton("Cancel"){ dialog, id ->
+
+                    }
+            val alert = builder.create()
+            alert.show()
         }
 
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,

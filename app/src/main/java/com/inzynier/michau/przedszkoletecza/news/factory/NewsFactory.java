@@ -1,5 +1,7 @@
 package com.inzynier.michau.przedszkoletecza.news.factory;
 
+import android.util.Base64;
+
 import com.inzynier.michau.przedszkoletecza.news.model.NewsModel;
 
 import org.json.JSONArray;
@@ -20,24 +22,25 @@ public class NewsFactory {
             String content = jsonObject.getString("content");
             String author = jsonObject.getString("author");
             String title = jsonObject.getString("title");
+            byte[] images = Base64.decode(jsonObject.getString("image"), 0);
+
             String refactoredContent;
             String refactoredAuthor;
             String refactoredTitle;
-            if(content.length() > 40) {
-                refactoredContent = content.substring(0, 40) + "...";
+            if (content.length() > 40) {
+                refactoredContent = content.substring(0, 30) + "...";
             } else {
-                refactoredContent = content + ("                                       " +
-                        "              ").substring(content.length());
+                refactoredContent = content;
             }
 
-            if(author.length() > 10) {
-                refactoredAuthor = author.substring(0,9) + "..";
+            if (author.length() > 10) {
+                refactoredAuthor = author.substring(0, 9) + "..";
             } else {
                 refactoredAuthor = author;
             }
 
-            if(title.length() > 40) {
-                refactoredTitle = title.substring(0,40) + "...";
+            if (title.length() > 40) {
+                refactoredTitle = title.substring(0, 30) + "...";
             } else {
                 refactoredTitle = title;
             }
@@ -47,7 +50,8 @@ public class NewsFactory {
                     refactoredContent,
                     refactoredTitle,
                     refactoredAuthor,
-                    new Date(jsonObject.getLong("date")));
+                    new Date(jsonObject.getLong("date")),
+                    images);
             newz.add(newsModel);
         }
         return newz;
@@ -61,12 +65,14 @@ public class NewsFactory {
             String content = jsonObject.getString("content");
             String author = jsonObject.getString("author");
             String title = jsonObject.getString("title");
+            byte[] images = Base64.decode(jsonObject.getString("image"), 0);
             NewsModel newsModel = new NewsModel(
                     jsonObject.getLong("id"),
                     content,
                     title,
                     author,
-                    new Date(jsonObject.getLong("date")));
+                    new Date(jsonObject.getLong("date")),
+                    images);
             newz.add(newsModel);
         }
         return newz;

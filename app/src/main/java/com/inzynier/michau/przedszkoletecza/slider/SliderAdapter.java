@@ -14,16 +14,25 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.inzynier.michau.przedszkoletecza.AnnoucementsPage;
 import com.inzynier.michau.przedszkoletecza.NewsPage;
 import com.inzynier.michau.przedszkoletecza.R;
 import com.inzynier.michau.przedszkoletecza.child.ChildModel;
 import com.inzynier.michau.przedszkoletecza.data.fetcher.DataFetcher;
 import com.inzynier.michau.przedszkoletecza.news.adapter.AnnouncmentAdapter;
 import com.inzynier.michau.przedszkoletecza.news.adapter.NewsAdapter;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateLongClickListener;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import com.prolificinteractive.materialcalendarview.format.DateFormatDayFormatter;
 
 import org.json.JSONException;
+import org.threeten.bp.LocalDate;
+import org.w3c.dom.Text;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 import pl.droidsonroids.gif.GifImageView;
 
@@ -124,17 +133,28 @@ public class SliderAdapter extends PagerAdapter {
         gif.setVisibility(View.VISIBLE);
         description.setVisibility(View.VISIBLE);
 
+        annoucements.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent intent = new Intent(activity, AnnoucementsPage.class);
+                        intent.putExtra("ann_id", position);
+                        activity.startActivity(intent);
+                    }
+                }
+        );
+
         news.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(activity, NewsPage.class);
-                intent.putExtra("id", id);
+                intent.putExtra("news_id", position);
                 activity.startActivity(intent);
             }
         });
     }
 
-    private void setUpSecondPage(View view) {
+    private void setUpSecondPage(final View view) {
         hideNews(view);
         ChildModel childModel = null;
         try {
@@ -142,8 +162,27 @@ public class SliderAdapter extends PagerAdapter {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        final MaterialCalendarView calendar = view.findViewById(R.id.calendarView);
+        calendar.addDecorator(new EventDecorator(Color.RED, Arrays.asList(CalendarDay.from(LocalDate.now()), CalendarDay.from(LocalDate.now().minusDays(1)))));
+        calendar.setSelectionColor(Color.RED);
+        calendar.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView materialCalendarView, @NonNull CalendarDay calendarDay, boolean b) {
+                CalendarDay selectedDate = calendar.getSelectedDate();
+                TextView title = view.findViewById(R.id.absence);
+                if (selectedDate.getDate().isEqual(LocalDate.now())) {
+                    title.setText("Choroba");
+                } else if (selectedDate.getDate().isEqual(LocalDate.now().minusDays(1))) {
+                    title.setText("Ból dupy");
+                } else
+                    title.setText("Nieobecności");
+            }
+        });
+
+
         LinearLayout childTable = view.findViewById(R.id.child_table_layout);
         LinearLayout childButtons = view.findViewById(R.id.child_buttons_layout);
+        LinearLayout childButtonz = view.findViewById(R.id.child_buttons);
         TextView name = view.findViewById(R.id.name_value);
         TextView pesel = view.findViewById(R.id.pesel_value);
         TextView gender = view.findViewById(R.id.gender_value);
@@ -160,6 +199,7 @@ public class SliderAdapter extends PagerAdapter {
         childButtons.setVisibility(View.VISIBLE);
         childTable.setVisibility(View.VISIBLE);
         gif.setVisibility(View.VISIBLE);
+        childButtonz.setVisibility(View.VISIBLE);
     }
 
     private void hideNews(View view) {
@@ -172,6 +212,8 @@ public class SliderAdapter extends PagerAdapter {
     private void hideChildInfo(View view) {
         LinearLayout childTable = view.findViewById(R.id.child_table_layout);
         LinearLayout childButtons = view.findViewById(R.id.child_buttons_layout);
+        LinearLayout childButtonz = view.findViewById(R.id.child_buttons);
+        childButtonz.setVisibility(View.GONE);
         childButtons.setVisibility(View.GONE);
         childTable.setVisibility(View.GONE);
     }

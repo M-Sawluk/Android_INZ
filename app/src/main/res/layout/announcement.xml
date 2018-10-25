@@ -17,11 +17,19 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/news_title_"
-                android:layout_marginTop="20dp"
+            <ImageView
+                android:id="@+id/ann_image"
+                android:layout_marginTop="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:srcCompat="@tools:sample/avatars[0]" />
+
+            <TextView
+                android:id="@+id/ann_news_title_"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/news_background"
                 android:fontFamily="casual"
@@ -32,7 +40,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/news_content_"
+                android:id="@+id/ann_news_content_"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -44,7 +52,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/news_author_"
+                android:id="@+id/ann_news_author_"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -56,7 +64,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/news_data_"
+                android:id="@+id/ann_news_data_"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -66,18 +74,6 @@
                 android:textAlignment="viewStart"
                 android:textColor="@android:color/holo_orange_dark"
                 android:textSize="18sp" />
-
-            <Button
-                android:id="@+id/delete_news"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/ripple_effect_blue"
-                android:fontFamily="casual"
-                android:text="KASUJ"
-                android:textAlignment="center"
-                android:textColor="@android:color/holo_orange_dark"
-                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>

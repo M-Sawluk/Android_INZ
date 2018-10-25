@@ -22,6 +22,7 @@
                 android:id="@+id/news_author"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="casual"
                 android:text="Autor: "
                 android:textAlignment="viewStart"
                 android:textColor="@android:color/holo_orange_dark"
@@ -31,6 +32,7 @@
                 android:id="@+id/news_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="casual"
                 android:text="Data: "
                 android:textAlignment="viewStart"
                 android:textColor="@android:color/black"
@@ -45,7 +47,7 @@
             android:background="?android:attr/listDivider" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical">
@@ -54,6 +56,7 @@
                 android:id="@+id/news_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="casual"
                 android:text="Tytuł"
                 android:textAlignment="viewStart"
                 android:textColor="@color/design_default_color_primary_dark"
@@ -63,6 +66,7 @@
                 android:id="@+id/news_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="casual"
                 android:text="Zawartość"
                 android:textAlignment="viewStart" />
         </LinearLayout>
