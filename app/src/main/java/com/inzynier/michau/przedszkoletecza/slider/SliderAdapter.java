@@ -15,24 +15,25 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.inzynier.michau.przedszkoletecza.AnnoucementsPage;
+import com.inzynier.michau.przedszkoletecza.EditAbsenceDay;
 import com.inzynier.michau.przedszkoletecza.NewsPage;
 import com.inzynier.michau.przedszkoletecza.R;
-import com.inzynier.michau.przedszkoletecza.child.ChildModel;
+import com.inzynier.michau.przedszkoletecza.childInfo.AbsenceDto;
+import com.inzynier.michau.przedszkoletecza.childInfo.ChildInfoFactory;
+import com.inzynier.michau.przedszkoletecza.childInfo.ChildModel;
 import com.inzynier.michau.przedszkoletecza.data.fetcher.DataFetcher;
 import com.inzynier.michau.przedszkoletecza.news.adapter.AnnouncmentAdapter;
 import com.inzynier.michau.przedszkoletecza.news.adapter.NewsAdapter;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
-import com.prolificinteractive.materialcalendarview.OnDateLongClickListener;
-import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
-import com.prolificinteractive.materialcalendarview.format.DateFormatDayFormatter;
 
 import org.json.JSONException;
+import org.threeten.bp.DayOfWeek;
 import org.threeten.bp.LocalDate;
-import org.w3c.dom.Text;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import pl.droidsonroids.gif.GifImageView;
 
@@ -134,23 +135,17 @@ public class SliderAdapter extends PagerAdapter {
         description.setVisibility(View.VISIBLE);
 
         annoucements.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent intent = new Intent(activity, AnnoucementsPage.class);
-                        intent.putExtra("ann_id", position);
-                        activity.startActivity(intent);
-                    }
+                (parent, view1, position, id) -> {
+                    Intent intent = new Intent(activity, AnnoucementsPage.class);
+                    intent.putExtra("ann_id", position);
+                    activity.startActivity(intent);
                 }
         );
 
-        news.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(activity, NewsPage.class);
-                intent.putExtra("news_id", position);
-                activity.startActivity(intent);
-            }
+        news.setOnItemClickListener((parent, view12, position, id) -> {
+            Intent intent = new Intent(activity, NewsPage.class);
+            intent.putExtra("news_id", position);
+            activity.startActivity(intent);
         });
     }
 
@@ -163,19 +158,27 @@ public class SliderAdapter extends PagerAdapter {
             e.printStackTrace();
         }
         final MaterialCalendarView calendar = view.findViewById(R.id.calendarView);
-        calendar.addDecorator(new EventDecorator(Color.RED, Arrays.asList(CalendarDay.from(LocalDate.now()), CalendarDay.from(LocalDate.now().minusDays(1)))));
-        calendar.setSelectionColor(Color.RED);
-        calendar.setOnDateChangedListener(new OnDateSelectedListener() {
-            @Override
-            public void onDateSelected(@NonNull MaterialCalendarView materialCalendarView, @NonNull CalendarDay calendarDay, boolean b) {
-                CalendarDay selectedDate = calendar.getSelectedDate();
-                TextView title = view.findViewById(R.id.absence);
-                if (selectedDate.getDate().isEqual(LocalDate.now())) {
-                    title.setText("Choroba");
-                } else if (selectedDate.getDate().isEqual(LocalDate.now().minusDays(1))) {
-                    title.setText("Ból dupy");
-                } else
-                    title.setText("Nieobecności");
+        calendar.addDecorators(getMarkeDays());
+        calendar.setSelectionColor(Color.BLUE);
+
+
+        calendar.setOnDateLongClickListener((materialCalendarView, calendarDay) -> {
+            if(calendarDay.getDay() != 6 && calendarDay.getDay() !=7 && calendarDay.getDate().isAfter(LocalDate.now().minusDays(1))) {
+                Intent editAbsence = new Intent(activity, EditAbsenceDay.class);
+                editAbsence.putExtra("day", calendarDay);
+                activity.startActivity(editAbsence);
+            }
+        });
+
+        calendar.setOnDateChangedListener((materialCalendarView, calendarDay, b) -> {
+            TextView title = view.findViewById(R.id.absence);
+            List<AbsenceDto> absenceRecords = DataFetcher.getAbsenceRecords(activity);
+            for (AbsenceDto absenceRecord : absenceRecords) {
+                title.setText("Nieobecności");
+                if(CalendarDay.from(absenceRecord.getAbsenceDate()).equals(calendarDay)) {
+                    title.setText(absenceRecord.getContent());
+                    return;
+                }
             }
         });
 
@@ -218,7 +221,6 @@ public class SliderAdapter extends PagerAdapter {
         childTable.setVisibility(View.GONE);
     }
 
-
     public void notifyDataSetChanged(int page) {
         DataFetcher dataFetcher = new DataFetcher(activity);
         dataFetcher.fetchAnouncements();
@@ -227,5 +229,27 @@ public class SliderAdapter extends PagerAdapter {
         dataFetcher.fetchMessages();
         destroyItem(viewGroup, page, view);
         instantiateItem(viewGroup, page);
+    }
+
+    private List<EventDecorator> getMarkeDays() {
+        ArrayList<EventDecorator> decorators = new ArrayList<>();
+        List<CalendarDay> absenceDays = ChildInfoFactory
+                .mapToCalendarDays(
+                        DataFetcher
+                                .getAbsenceRecords(activity)
+                );
+        List<CalendarDay> presenceDays = new ArrayList<>();
+        LocalDate start = LocalDate.ofYearDay(2018, 1);
+
+        while (start.isBefore(LocalDate.now())) {
+            if(!absenceDays.contains(CalendarDay.from(start)) && start.getDayOfWeek() != DayOfWeek.SUNDAY && start.getDayOfWeek() != DayOfWeek.SATURDAY) {
+                presenceDays.add(CalendarDay.from(start));
+            }
+            start = start.plusDays(1);
+        }
+
+        decorators.add(new EventDecorator(Color.GREEN, presenceDays, 5f));
+        decorators.add(new EventDecorator(Color.RED, absenceDays, 12));
+        return decorators;
     }
 }

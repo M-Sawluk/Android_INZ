@@ -35,7 +35,8 @@ class NewsPage : AppCompatActivity() {
                     .setCancelable(true)
                     .setPositiveButton("Ok") { dialog, id ->
                         RequestHelper
-                                .makeRequest("/deleteMessage/${newsModel.id}", this)
+                                .makeRequest("news/deleteMessage/${newsModel.id}", this)
+                        DataFetcher(this).fetchMessages()
                         startActivity(Intent(this, MainPage::class.java))
                     }.setNegativeButton("Cancel"){ dialog, id ->
 

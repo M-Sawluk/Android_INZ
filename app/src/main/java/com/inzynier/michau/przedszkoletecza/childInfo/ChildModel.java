@@ -1,6 +1,4 @@
-package com.inzynier.michau.przedszkoletecza.child;
-
-import java.util.Date;
+package com.inzynier.michau.przedszkoletecza.childInfo;
 
 
 public class ChildModel {

@@ -1,16 +1,17 @@
-package com.inzynier.michau.przedszkoletecza.child;
+package com.inzynier.michau.przedszkoletecza.childInfo;
 
 import com.inzynier.michau.przedszkoletecza.R;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.threeten.bp.LocalDate;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class ChildFactory {
+public class ChildInfoFactory {
 
     public static List<ChildModel> createChildren(String json) throws JSONException {
         JSONArray jsonArray = new JSONArray(json);
@@ -32,4 +33,32 @@ public class ChildFactory {
         }
         return children;
     }
+
+    public static List<AbsenceDto> createAbsences(String json)  {
+        try {
+            JSONArray jsonArray = new JSONArray(json);
+            List<AbsenceDto> absences = new ArrayList<>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String absenceDate = jsonObject.getString("absenceDate");
+                long id = jsonObject.getLong("id");
+                String reason = jsonObject.getString("reason");
+                absences.add(new AbsenceDto(id, LocalDate.parse(absenceDate) , reason));
+            }
+
+            return absences;
+        } catch (JSONException e) {
+
+        }
+        throw new IllegalArgumentException(" Wrong json" + json);
+    }
+
+    public static List<CalendarDay> mapToCalendarDays(List<AbsenceDto> absenceDtos) {
+        List<CalendarDay> calendarDays = new ArrayList<>();
+        for (AbsenceDto absenceDto : absenceDtos) {
+            calendarDays.add(CalendarDay.from(absenceDto.getAbsenceDate()));
+        }
+        return calendarDays;
+    }
+
 }

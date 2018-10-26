@@ -3,8 +3,9 @@ package com.inzynier.michau.przedszkoletecza.data.fetcher;
 import android.app.Activity;
 import android.content.Context;
 
-import com.inzynier.michau.przedszkoletecza.child.ChildFactory;
-import com.inzynier.michau.przedszkoletecza.child.ChildModel;
+import com.inzynier.michau.przedszkoletecza.childInfo.AbsenceDto;
+import com.inzynier.michau.przedszkoletecza.childInfo.ChildInfoFactory;
+import com.inzynier.michau.przedszkoletecza.childInfo.ChildModel;
 import com.inzynier.michau.przedszkoletecza.news.factory.NewsFactory;
 import com.inzynier.michau.przedszkoletecza.news.model.NewsModel;
 
@@ -30,9 +31,26 @@ public class DataFetcher {
         httpClient = new OkHttpClient();
     }
 
+    public Response makeRequest(String url) throws IOException {
+        String token = activity.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE)
+                .getString(TOKEN, "");
+
+        String finalUrl = "http://ec2-35-180-135-145.eu-west-3.compute.amazonaws.com:8080/tecza/rest/" + url;
+        Request request = new Request
+                .Builder()
+                .get()
+                .addHeader("Authorization", token)
+                .url(finalUrl)
+                .build();
+
+        return httpClient
+                .newCall(request)
+                .execute();
+    }
+
     public void fetchBalanceStatus() {
         try {
-            Response response = makeRequest("/getBalance/1");
+            Response response = makeRequest("parent/getBalance/1");
             if (response.isSuccessful()) {
                 String amount = response.body().string();
                 JSONObject jsonObject = new JSONObject(amount);
@@ -50,7 +68,7 @@ public class DataFetcher {
 
     public void fetchChild() {
         try {
-            Response response = makeRequest("/getAll");
+            Response response = makeRequest("parent/getAll");
             if (response != null && response.isSuccessful()) {
                 activity
                         .getSharedPreferences("data", Context.MODE_PRIVATE)
@@ -65,7 +83,7 @@ public class DataFetcher {
 
     public void fetchMessages() {
         try {
-            Response response = makeRequest("/getMessages");
+            Response response = makeRequest("news/getMessages");
             if (response != null && response.isSuccessful()) {
                 activity
                         .getSharedPreferences("data", Context.MODE_PRIVATE)
@@ -80,7 +98,7 @@ public class DataFetcher {
 
     public void fetchAnouncements() {
         try {
-            Response response = makeRequest("/getAnnouncement");
+            Response response = makeRequest("news/getAnnouncement");
             if (response != null && response.isSuccessful()) {
                 activity
                         .getSharedPreferences("data", Context.MODE_PRIVATE)
@@ -93,21 +111,19 @@ public class DataFetcher {
         }
     }
 
-    private Response makeRequest(String url) throws IOException {
-        String token = activity.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE)
-                .getString(TOKEN, "");
-
-        String finalUrl = "http://ec2-35-180-135-145.eu-west-3.compute.amazonaws.com:8080/tecza/rest/parent" + url;
-        Request request = new Request
-                .Builder()
-                .get()
-                .addHeader("Authorization", token)
-                .url(finalUrl)
-                .build();
-
-        return httpClient
-                .newCall(request)
-                .execute();
+    public void fetchAbsenceRecords() {
+        try {
+            Response response = makeRequest("childinfo/getAbsenceRecords/1");
+            if (response != null && response.isSuccessful()) {
+                activity
+                        .getSharedPreferences("data", Context.MODE_PRIVATE)
+                        .edit()
+                        .putString("absenceRecords", response.body().string())
+                        .apply();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static BigDecimal getBalance(Activity activity) {
@@ -119,7 +135,7 @@ public class DataFetcher {
     }
 
     public static List<ChildModel> getChildren(Activity activity) throws JSONException {
-        return ChildFactory
+        return ChildInfoFactory
                 .createChildren(
                         activity
                         .getSharedPreferences("data", Context.MODE_PRIVATE)
@@ -160,6 +176,15 @@ public class DataFetcher {
                         activity
                                 .getSharedPreferences("data", Context.MODE_PRIVATE)
                                 .getString("announcement", "")
+                );
+    }
+
+    public static List<AbsenceDto> getAbsenceRecords(Activity activity) {
+        return ChildInfoFactory
+                .createAbsences(
+                        activity
+                                .getSharedPreferences("data", Context.MODE_PRIVATE)
+                                .getString("absenceRecords", "")
                 );
     }
 }

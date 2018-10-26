@@ -64,6 +64,7 @@ class LoginPage : AppCompatActivity() {
             dataFetcher.fetchChild()
             dataFetcher.fetchAnouncements()
             dataFetcher.fetchMessages()
+            dataFetcher.fetchAbsenceRecords()
             Thread.sleep(1000)
             val intent = Intent(context, MainPage::class.java)
             context?.startActivity(intent)
