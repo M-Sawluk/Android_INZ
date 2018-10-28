@@ -9,23 +9,27 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.inzynier.michau.przedszkoletecza.AnnoucementsPage;
+import com.inzynier.michau.przedszkoletecza.ChildProgressChart;
 import com.inzynier.michau.przedszkoletecza.EditAbsenceDay;
 import com.inzynier.michau.przedszkoletecza.NewsPage;
 import com.inzynier.michau.przedszkoletecza.R;
+import com.inzynier.michau.przedszkoletecza.RemarkPage;
 import com.inzynier.michau.przedszkoletecza.childInfo.AbsenceDto;
 import com.inzynier.michau.przedszkoletecza.childInfo.ChildInfoFactory;
 import com.inzynier.michau.przedszkoletecza.childInfo.ChildModel;
+import com.inzynier.michau.przedszkoletecza.childInfo.remark.RemakrsDto;
 import com.inzynier.michau.przedszkoletecza.data.fetcher.DataFetcher;
 import com.inzynier.michau.przedszkoletecza.news.adapter.AnnouncmentAdapter;
 import com.inzynier.michau.przedszkoletecza.news.adapter.NewsAdapter;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.readystatesoftware.viewbadger.BadgeView;
 
 import org.json.JSONException;
 import org.threeten.bp.DayOfWeek;
@@ -163,7 +167,8 @@ public class SliderAdapter extends PagerAdapter {
 
 
         calendar.setOnDateLongClickListener((materialCalendarView, calendarDay) -> {
-            if(calendarDay.getDay() != 6 && calendarDay.getDay() !=7 && calendarDay.getDate().isAfter(LocalDate.now().minusDays(1))) {
+            if (calendarDay.getDate().getDayOfWeek() != DayOfWeek.SATURDAY && calendarDay.getDate().getDayOfWeek() != DayOfWeek.SUNDAY
+                    && calendarDay.getDate().isAfter(LocalDate.now().minusDays(1))) {
                 Intent editAbsence = new Intent(activity, EditAbsenceDay.class);
                 editAbsence.putExtra("day", calendarDay);
                 activity.startActivity(editAbsence);
@@ -175,7 +180,7 @@ public class SliderAdapter extends PagerAdapter {
             List<AbsenceDto> absenceRecords = DataFetcher.getAbsenceRecords(activity);
             for (AbsenceDto absenceRecord : absenceRecords) {
                 title.setText("Nieobecności");
-                if(CalendarDay.from(absenceRecord.getAbsenceDate()).equals(calendarDay)) {
+                if (CalendarDay.from(absenceRecord.getAbsenceDate()).equals(calendarDay)) {
                     title.setText(absenceRecord.getContent());
                     return;
                 }
@@ -191,7 +196,30 @@ public class SliderAdapter extends PagerAdapter {
         TextView gender = view.findViewById(R.id.gender_value);
         TextView date = view.findViewById(R.id.date_and_date_birth);
         TextView description = view.findViewById(R.id.desciprtion);
+        Button remarks_but = view.findViewById(R.id.remark_button);
+        Button child_progress = view.findViewById(R.id.child_progress);
+        remarks_but.setOnClickListener(v -> {
+            Intent intent = new Intent(activity, RemarkPage.class);
+            activity.startActivity(intent);
+        });
         GifImageView gif = view.findViewById(R.id.gif);
+        List<RemakrsDto> remarks = DataFetcher.getRemarksList(activity);
+        String newRemarksCount = ChildInfoFactory.getNewRemarksCount(remarks);
+        BadgeView badgeView = new BadgeView(activity, childButtonz);
+        if (!"0".equals(newRemarksCount)) {
+            badgeView.setText(newRemarksCount);
+            badgeView.show();
+        }
+        child_progress.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(activity, ChildProgressChart.class);
+                        activity.startActivity(intent);
+                    }
+                }
+        );
+
         name.setText(childModel.getName());
         pesel.setText(childModel.getPesel());
         gender.setText(childModel.getGender());
@@ -227,8 +255,6 @@ public class SliderAdapter extends PagerAdapter {
         dataFetcher.fetchBalanceStatus();
         dataFetcher.fetchChild();
         dataFetcher.fetchMessages();
-        destroyItem(viewGroup, page, view);
-        instantiateItem(viewGroup, page);
     }
 
     private List<EventDecorator> getMarkeDays() {
@@ -239,10 +265,10 @@ public class SliderAdapter extends PagerAdapter {
                                 .getAbsenceRecords(activity)
                 );
         List<CalendarDay> presenceDays = new ArrayList<>();
-        LocalDate start = LocalDate.ofYearDay(2018, 1);
+        LocalDate start = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1);
 
         while (start.isBefore(LocalDate.now())) {
-            if(!absenceDays.contains(CalendarDay.from(start)) && start.getDayOfWeek() != DayOfWeek.SUNDAY && start.getDayOfWeek() != DayOfWeek.SATURDAY) {
+            if (!absenceDays.contains(CalendarDay.from(start)) && start.getDayOfWeek() != DayOfWeek.SUNDAY && start.getDayOfWeek() != DayOfWeek.SATURDAY) {
                 presenceDays.add(CalendarDay.from(start));
             }
             start = start.plusDays(1);

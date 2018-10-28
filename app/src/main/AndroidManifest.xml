@@ -45,7 +45,13 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".EditAbsenceDay"></activity>
+        <activity
+            android:name=".EditAbsenceDay"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RemarkPage"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ChildProgressChart"></activity>
     </application>
 
 </manifest>

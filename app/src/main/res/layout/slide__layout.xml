@@ -195,22 +195,23 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:visibility="gone">
+            <Button
+                android:id="@+id/child_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/news_ripple"
+                android:text="Postęp Dziecka" />
 
             <Button
-                android:id="@+id/button5"
+                android:id="@+id/remark_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/news_ripple"
                 android:text="Dziennik Uwag" />
 
-            <Button
-                android:id="@+id/button4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/news_ripple"
-                android:text="Postęp Dziecka" />
+
         </LinearLayout>
         <LinearLayout
             android:id="@+id/annLayout"

@@ -1,6 +1,8 @@
 package com.inzynier.michau.przedszkoletecza.childInfo;
 
 import com.inzynier.michau.przedszkoletecza.R;
+import com.inzynier.michau.przedszkoletecza.childInfo.progress.ChildProgressDto;
+import com.inzynier.michau.przedszkoletecza.childInfo.remark.RemakrsDto;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import org.json.JSONArray;
@@ -53,6 +55,28 @@ public class ChildInfoFactory {
         throw new IllegalArgumentException(" Wrong json" + json);
     }
 
+    public static List<RemakrsDto> createRemarks(String json)  {
+        try {
+            JSONArray jsonArray = new JSONArray(json);
+            List<RemakrsDto> absences = new ArrayList<>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Long id = jsonObject.getLong("id");
+                boolean isPositive = jsonObject.getBoolean("positive");
+                boolean isRead = jsonObject.getBoolean("read");
+                String author = jsonObject.getString("author");
+                String comment = jsonObject.getString("comment");
+                String date = jsonObject.getString("date");
+                absences.add(new RemakrsDto(id, isPositive, author, comment, isRead, LocalDate.parse(date)));
+            }
+
+            return absences;
+        } catch (JSONException e) {
+
+        }
+        throw new IllegalArgumentException(" Wrong json" + json);
+    }
+
     public static List<CalendarDay> mapToCalendarDays(List<AbsenceDto> absenceDtos) {
         List<CalendarDay> calendarDays = new ArrayList<>();
         for (AbsenceDto absenceDto : absenceDtos) {
@@ -61,4 +85,38 @@ public class ChildInfoFactory {
         return calendarDays;
     }
 
+    public static String getNewRemarksCount(List<RemakrsDto> remakrsDtos) {
+        int count = 0;
+
+        for (RemakrsDto remakrsDto : remakrsDtos) {
+            if(!remakrsDto.isRead())
+                count ++;
+        }
+
+        return String.valueOf(count);
+    }
+
+    public static List<ChildProgressDto> createProgressGrades(String json)  {
+        try {
+            JSONArray jsonArray = new JSONArray(json);
+            List<ChildProgressDto> progressDtos = new ArrayList<>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String progressCategory = jsonObject.getString("progressCategory");
+                progressDtos.add(new ChildProgressDto(progressCategory,"",""));
+                String gradeTask = jsonObject.getString("taskGradeDtos");
+                JSONArray gradeTaskArrays = new JSONArray(gradeTask);
+                for (int i1 = 0; i1 < gradeTaskArrays.length(); i1++) {
+                    JSONObject gradeTas = gradeTaskArrays.getJSONObject(i1);
+                    String progressTask = gradeTas.getString("task");
+                    String progressGrade = gradeTas.getString("grade");
+                    progressDtos.add(new ChildProgressDto("", progressTask, progressGrade));
+                }
+            }
+            return progressDtos;
+        } catch (JSONException e) {
+
+        }
+        throw new IllegalArgumentException(" Wrong json" + json);
+    }
 }

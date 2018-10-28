@@ -6,6 +6,8 @@ import android.content.Context;
 import com.inzynier.michau.przedszkoletecza.childInfo.AbsenceDto;
 import com.inzynier.michau.przedszkoletecza.childInfo.ChildInfoFactory;
 import com.inzynier.michau.przedszkoletecza.childInfo.ChildModel;
+import com.inzynier.michau.przedszkoletecza.childInfo.progress.ChildProgressDto;
+import com.inzynier.michau.przedszkoletecza.childInfo.remark.RemakrsDto;
 import com.inzynier.michau.przedszkoletecza.news.factory.NewsFactory;
 import com.inzynier.michau.przedszkoletecza.news.model.NewsModel;
 
@@ -126,6 +128,36 @@ public class DataFetcher {
         }
     }
 
+    public void fetchChildRemarks() {
+        try {
+            Response response = makeRequest("childinfo/getChildRemarks/1");
+            if (response != null && response.isSuccessful()) {
+                activity
+                        .getSharedPreferences("data", Context.MODE_PRIVATE)
+                        .edit()
+                        .putString("childRemarks", response.body().string())
+                        .apply();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void fetchChildProgress() {
+        try {
+            Response response = makeRequest("childinfo/getProgrressEvaluation/1");
+            if (response != null && response.isSuccessful()) {
+                activity
+                        .getSharedPreferences("data", Context.MODE_PRIVATE)
+                        .edit()
+                        .putString("progressEvaluation", response.body().string())
+                        .apply();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static BigDecimal getBalance(Activity activity) {
         return new BigDecimal(
                 activity
@@ -185,6 +217,24 @@ public class DataFetcher {
                         activity
                                 .getSharedPreferences("data", Context.MODE_PRIVATE)
                                 .getString("absenceRecords", "")
+                );
+    }
+
+    public static List<RemakrsDto> getRemarksList(Activity activity) {
+        return ChildInfoFactory
+                .createRemarks(
+                        activity
+                                .getSharedPreferences("data", Context.MODE_PRIVATE)
+                                .getString("childRemarks", "")
+                );
+    }
+
+    public static List<ChildProgressDto> getProgressList(Activity activity) {
+        return ChildInfoFactory
+                .createProgressGrades(
+                        activity
+                                .getSharedPreferences("data", Context.MODE_PRIVATE)
+                                .getString("progressEvaluation", "")
                 );
     }
 }
