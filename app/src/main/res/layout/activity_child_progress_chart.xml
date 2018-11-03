@@ -7,46 +7,16 @@
     android:background="@drawable/mainbggg"
     tools:context=".ChildProgressChart"
     android:orientation="vertical">
-
-
-    <LinearLayout
+    <com.evrencoskun.tableview.TableView
+        android:id="@+id/content_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView"
-            style="@style/AudioFileInfoOverlayText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_weight="1"
-            android:fontFamily="@font/anton"
-            android:text="Karta obserwacji rozwoju dziecka"
-            android:textAlignment="center"
-            android:textColor="@android:color/holo_orange_dark"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_weight="1"
-            android:background="?android:attr/listDivider" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <ListView
-            android:id="@+id/progress_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+        app:column_header_height="10dp"
+        app:row_header_width="50dp"
+        app:selected_color="#301a938d"
+        app:shadow_color="#30161616"
+        app:unselected_color="#30b0f4f4"
+        />
 
 </LinearLayout>

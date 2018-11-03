@@ -84,8 +84,8 @@ public class FirstPage extends AbstractPage {
 
     private AdapterView.OnItemClickListener getNewsListener() {
         return (parent, view, position, id) -> {
-            Intent intent = new Intent(activity, AnnoucementsPage.class);
-            intent.putExtra("ann_id", position);
+            Intent intent = new Intent(activity, NewsPage.class);
+            intent.putExtra("news_id", position);
             activity.startActivity(intent);
         };
     }
