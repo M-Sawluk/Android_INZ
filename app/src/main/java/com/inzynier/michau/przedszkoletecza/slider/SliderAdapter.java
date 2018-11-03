@@ -3,7 +3,10 @@ package com.inzynier.michau.przedszkoletecza.slider;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -27,18 +30,27 @@ import com.inzynier.michau.przedszkoletecza.childInfo.remark.RemakrsDto;
 import com.inzynier.michau.przedszkoletecza.data.fetcher.DataFetcher;
 import com.inzynier.michau.przedszkoletecza.news.adapter.AnnouncmentAdapter;
 import com.inzynier.michau.przedszkoletecza.news.adapter.NewsAdapter;
+import com.inzynier.michau.przedszkoletecza.slider.slider.parts.AbstractPage;
+import com.inzynier.michau.przedszkoletecza.slider.slider.parts.FirstPage;
+import com.inzynier.michau.przedszkoletecza.slider.slider.parts.provider.PageFactory;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.readystatesoftware.viewbadger.BadgeView;
 
+import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.threeten.bp.DayOfWeek;
 import org.threeten.bp.LocalDate;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.math.BigDecimal;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import pl.droidsonroids.gif.GifImageView;
 
 public class SliderAdapter extends PagerAdapter {
@@ -46,11 +58,11 @@ public class SliderAdapter extends PagerAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private View view;
-    private ViewGroup viewGroup;
 
     public SliderAdapter(Context context, Activity activity) {
         this.activity = activity;
         this.context = context;
+
     }
 
     private int[] gifs = {R.drawable.cashok, R.drawable.boy, R.drawable.cashok, R.drawable.cashok, R.drawable.cashwarning};
@@ -65,6 +77,8 @@ public class SliderAdapter extends PagerAdapter {
             "Brak zaległości", "Twoje Dziecko", "Komunikacja", "Zgłoś", "Do zapłaty: "
     };
 
+    private AbstractPage[] pages;
+
     @Override
     public int getCount() {
         return slide_headings.length;
@@ -78,22 +92,24 @@ public class SliderAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        this.viewGroup = container;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = layoutInflater.inflate(R.layout.slide__layout, container, false);
-        if (position == 0) {
-            setUpFirstPage(view);
-        } else if (position == 1) {
-            setUpSecondPage(view);
-        } else {
-            hideNews(view);
-            hideChildInfo(view);
-            TextView description = view.findViewById(R.id.desciprtion);
-            description.setTextColor(colors[position]);
-            GifImageView gif = view.findViewById(R.id.gif);
-            gif.animate();
-            gif.setImageResource(gifs[position]);
-            description.setText(slide_decriptions[position]);
+        pages = PageFactory.getPages(view, activity);
+        try {
+            if (position == 0) {
+                pages[0].initialize();
+            } else if (position == 1) {
+                pages[1].initialize();
+            } else {
+//                TextView description = view.findViewById(R.id.desciprtion);
+//                description.setTextColor(colors[position]);
+//                GifImageView gif = view.findViewById(R.id.gif);
+//                gif.animate();
+//                gif.setImageResource(gifs[position]);
+//                description.setText(slide_decriptions[position]);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         container.addView(view);
         return view;
@@ -105,177 +121,18 @@ public class SliderAdapter extends PagerAdapter {
         container.removeView((LinearLayout) object);
     }
 
-    private void setUpFirstPage(View view) {
-        hideChildInfo(view);
-        BigDecimal bigDecimal = DataFetcher.getBalance(activity);
-        TextView description = view.findViewById(R.id.desciprtion);
-        LinearLayout annLayout = view.findViewById(R.id.annLayout);
-        LinearLayout newsLayout = view.findViewById(R.id.newsLayout);
-        ListView annoucements = view.findViewById(R.id.Annoucments);
-        ListView news = view.findViewById(R.id.news);
-        GifImageView gif = view.findViewById(R.id.gif);
-        try {
-            news.setAdapter(new NewsAdapter(activity, DataFetcher.getTrimmedNews(activity)));
-            annoucements.setAdapter(new AnnouncmentAdapter(activity, DataFetcher.getTrimmmedAnnouncement(activity)));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        if (bigDecimal.compareTo(BigDecimal.ZERO) >= 0) {
-            description.setTextColor(colors[0]);
-            description.setText(slide_decriptions[0]);
-            gif.setImageResource(gifs[0]);
-            gif.animate();
-        } else {
-            description.setTextColor(colors[4]);
-            description.setText(slide_decriptions[4] + bigDecimal.toString() + "zł");
-            description.refreshDrawableState();
-            gif.animate();
-            gif.setImageResource(gifs[4]);
-        }
-
-        annLayout.setVisibility(View.VISIBLE);
-        newsLayout.setVisibility(View.VISIBLE);
-        gif.setVisibility(View.VISIBLE);
-        description.setVisibility(View.VISIBLE);
-
-        annoucements.setOnItemClickListener(
-                (parent, view1, position, id) -> {
-                    Intent intent = new Intent(activity, AnnoucementsPage.class);
-                    intent.putExtra("ann_id", position);
-                    activity.startActivity(intent);
-                }
-        );
-
-        news.setOnItemClickListener((parent, view12, position, id) -> {
-            Intent intent = new Intent(activity, NewsPage.class);
-            intent.putExtra("news_id", position);
-            activity.startActivity(intent);
-        });
-    }
-
-    private void setUpSecondPage(final View view) {
-        hideNews(view);
-        ChildModel childModel = null;
-        try {
-            childModel = DataFetcher.getChildren(activity).get(0);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        final MaterialCalendarView calendar = view.findViewById(R.id.calendarView);
-        calendar.addDecorators(getMarkeDays());
-        calendar.setSelectionColor(Color.BLUE);
-
-
-        calendar.setOnDateLongClickListener((materialCalendarView, calendarDay) -> {
-            if (calendarDay.getDate().getDayOfWeek() != DayOfWeek.SATURDAY && calendarDay.getDate().getDayOfWeek() != DayOfWeek.SUNDAY
-                    && calendarDay.getDate().isAfter(LocalDate.now().minusDays(1))) {
-                Intent editAbsence = new Intent(activity, EditAbsenceDay.class);
-                editAbsence.putExtra("day", calendarDay);
-                activity.startActivity(editAbsence);
-            }
-        });
-
-        calendar.setOnDateChangedListener((materialCalendarView, calendarDay, b) -> {
-            TextView title = view.findViewById(R.id.absence);
-            List<AbsenceDto> absenceRecords = DataFetcher.getAbsenceRecords(activity);
-            for (AbsenceDto absenceRecord : absenceRecords) {
-                title.setText("Nieobecności");
-                if (CalendarDay.from(absenceRecord.getAbsenceDate()).equals(calendarDay)) {
-                    title.setText(absenceRecord.getContent());
-                    return;
-                }
-            }
-        });
-
-
-        LinearLayout childTable = view.findViewById(R.id.child_table_layout);
-        LinearLayout childButtons = view.findViewById(R.id.child_buttons_layout);
-        LinearLayout childButtonz = view.findViewById(R.id.child_buttons);
-        TextView name = view.findViewById(R.id.name_value);
-        TextView pesel = view.findViewById(R.id.pesel_value);
-        TextView gender = view.findViewById(R.id.gender_value);
-        TextView date = view.findViewById(R.id.date_and_date_birth);
-        TextView description = view.findViewById(R.id.desciprtion);
-        Button remarks_but = view.findViewById(R.id.remark_button);
-        Button child_progress = view.findViewById(R.id.child_progress);
-        remarks_but.setOnClickListener(v -> {
-            Intent intent = new Intent(activity, RemarkPage.class);
-            activity.startActivity(intent);
-        });
-        GifImageView gif = view.findViewById(R.id.gif);
-        List<RemakrsDto> remarks = DataFetcher.getRemarksList(activity);
-        String newRemarksCount = ChildInfoFactory.getNewRemarksCount(remarks);
-        BadgeView badgeView = new BadgeView(activity, childButtonz);
-        if (!"0".equals(newRemarksCount)) {
-            badgeView.setText(newRemarksCount);
-            badgeView.show();
-        }
-        child_progress.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(activity, ChildProgressChart.class);
-                        activity.startActivity(intent);
-                    }
-                }
-        );
-
-        name.setText(childModel.getName());
-        pesel.setText(childModel.getPesel());
-        gender.setText(childModel.getGender());
-        date.setText(childModel.getDate());
-        description.setTextColor(colors[1]);
-        description.setText(slide_decriptions[1]);
-        gif.setImageResource(childModel.getPicture());
-        childButtons.setVisibility(View.VISIBLE);
-        childTable.setVisibility(View.VISIBLE);
-        gif.setVisibility(View.VISIBLE);
-        childButtonz.setVisibility(View.VISIBLE);
-    }
-
-    private void hideNews(View view) {
-        LinearLayout annoucements = view.findViewById(R.id.annLayout);
-        LinearLayout news = view.findViewById(R.id.newsLayout);
-        annoucements.setVisibility(View.GONE);
-        news.setVisibility(View.GONE);
-    }
-
-    private void hideChildInfo(View view) {
-        LinearLayout childTable = view.findViewById(R.id.child_table_layout);
-        LinearLayout childButtons = view.findViewById(R.id.child_buttons_layout);
-        LinearLayout childButtonz = view.findViewById(R.id.child_buttons);
-        childButtonz.setVisibility(View.GONE);
-        childButtons.setVisibility(View.GONE);
-        childTable.setVisibility(View.GONE);
-    }
-
     public void notifyDataSetChanged(int page) {
         DataFetcher dataFetcher = new DataFetcher(activity);
         dataFetcher.fetchAnouncements();
-        dataFetcher.fetchBalanceStatus();
         dataFetcher.fetchChild();
+        try {
+            List<ChildModel> children = DataFetcher.getChildren(activity);
+            dataFetcher.fetchBalanceStatus(children.get(0).getId());
+        } catch (JSONException e) {
+
+        }
         dataFetcher.fetchMessages();
     }
 
-    private List<EventDecorator> getMarkeDays() {
-        ArrayList<EventDecorator> decorators = new ArrayList<>();
-        List<CalendarDay> absenceDays = ChildInfoFactory
-                .mapToCalendarDays(
-                        DataFetcher
-                                .getAbsenceRecords(activity)
-                );
-        List<CalendarDay> presenceDays = new ArrayList<>();
-        LocalDate start = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1);
 
-        while (start.isBefore(LocalDate.now())) {
-            if (!absenceDays.contains(CalendarDay.from(start)) && start.getDayOfWeek() != DayOfWeek.SUNDAY && start.getDayOfWeek() != DayOfWeek.SATURDAY) {
-                presenceDays.add(CalendarDay.from(start));
-            }
-            start = start.plusDays(1);
-        }
-
-        decorators.add(new EventDecorator(Color.GREEN, presenceDays, 5f));
-        decorators.add(new EventDecorator(Color.RED, absenceDays, 12));
-        return decorators;
-    }
 }

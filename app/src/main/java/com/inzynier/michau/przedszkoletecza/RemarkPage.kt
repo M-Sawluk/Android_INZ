@@ -48,7 +48,8 @@ class RemarkPage : AppCompatActivity() {
                 for (selectedRemark in selectedRemarks) {
                     dataFetcher.makeRequest("childinfo/setAsRead/${selectedRemark.id}")
                 }
-                dataFetcher.fetchChildRemarks()
+                val id = DataFetcher.getChildren(context)[0].id
+                dataFetcher.fetchChildRemarks(id)
                 val intent = Intent(context, MainPage::class.java)
                 context?.startActivity(intent)
                 return true

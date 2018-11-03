@@ -19,6 +19,7 @@
             android:orientation="vertical">
 
             <TextView
+                style="@style/AudioFileInfoOverlayText"
                 android:id="@+id/news_author"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,6 +31,7 @@
 
             <TextView
                 android:id="@+id/news_date"
+                style="@style/AudioFileInfoOverlayText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="casual"
@@ -57,14 +59,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="casual"
+                style="@style/AudioFileInfoOverlayText"
                 android:text="Tytuł"
                 android:textAlignment="viewStart"
-                android:textColor="@color/design_default_color_primary_dark"
+                android:textColor="@android:color/holo_blue_bright"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/news_content"
                 android:layout_width="match_parent"
+                style="@style/AudioFileInfoOverlayText"
                 android:layout_height="wrap_content"
                 android:fontFamily="casual"
                 android:text="Zawartość"

@@ -10,6 +10,7 @@
         android:layout_weight="1"
         android:fontFamily="@font/anton"
         android:text="Kategoria"
+        style="@style/AudioFileInfoOverlayText"
         android:textAlignment="center"
         android:textColor="@android:color/holo_orange_dark"
         android:textSize="24sp"

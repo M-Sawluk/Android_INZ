@@ -37,7 +37,7 @@ public class DataFetcher {
         String token = activity.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE)
                 .getString(TOKEN, "");
 
-        String finalUrl = "http://ec2-35-180-135-145.eu-west-3.compute.amazonaws.com:8080/tecza/rest/" + url;
+        String finalUrl = "http://35.180.163.7:8080/tecza/rest/" + url;
         Request request = new Request
                 .Builder()
                 .get()
@@ -50,20 +50,18 @@ public class DataFetcher {
                 .execute();
     }
 
-    public void fetchBalanceStatus() {
+    public void fetchBalanceStatus(long childId) {
         try {
-            Response response = makeRequest("parent/getBalance/1");
+            Response response = makeRequest("parent/getBalance/" + String.valueOf(childId));
             if (response.isSuccessful()) {
                 String amount = response.body().string();
-                JSONObject jsonObject = new JSONObject(amount);
-                String balance = jsonObject.getString("balance");
                 activity
                         .getSharedPreferences("data", Context.MODE_PRIVATE)
                         .edit()
-                        .putString("balance", balance)
+                        .putString("balance", amount)
                         .apply();
             }
-        } catch (JSONException | IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -128,9 +126,9 @@ public class DataFetcher {
         }
     }
 
-    public void fetchChildRemarks() {
+    public void fetchChildRemarks(long id) {
         try {
-            Response response = makeRequest("childinfo/getChildRemarks/1");
+            Response response = makeRequest("childinfo/getChildRemarks/" + id);
             if (response != null && response.isSuccessful()) {
                 activity
                         .getSharedPreferences("data", Context.MODE_PRIVATE)

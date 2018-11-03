@@ -12,10 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.inzynier.michau.przedszkoletecza.R;
-import com.inzynier.michau.przedszkoletecza.childInfo.remark.RemakrsDto;
-import com.inzynier.michau.przedszkoletecza.data.fetcher.DataFetcher;
-
-import org.threeten.bp.LocalDate;
 
 import java.util.List;
 
@@ -46,10 +42,13 @@ public class ProgressAdapter extends ArrayAdapter<ChildProgressDto> {
             grade.setText(childProgressDto.getGrade());
             if(childProgressDto.getGrade().equals("Nie")) {
                 lay.setBackgroundResource(R.drawable.remark_bad);
+                grade.setTextColor(Color.RED);
             } else if (childProgressDto.getGrade().equals("Tak")) {
                 lay.setBackgroundResource(R.drawable.remark_good);
+                grade.setTextColor(Color.GREEN);
             } else {
-                lay.setBackgroundResource(R.drawable.remark_yello);
+                lay.setBackgroundResource(R.drawable.progress_yello);
+                grade.setTextColor(Color.YELLOW);
             }
         }
         return convertView;

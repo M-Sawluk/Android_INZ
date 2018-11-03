@@ -18,7 +18,7 @@ public final class RequestHelper {
         String token = activity.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE)
                 .getString(TOKEN, "");
 
-        String finalUrl = "http://ec2-35-180-135-145.eu-west-3.compute.amazonaws.com:8080/tecza/rest/" + url;
+        String finalUrl = "http://35.180.163.7:8080/tecza/rest/" + url;
         Request request = new Request
                 .Builder()
                 .get()

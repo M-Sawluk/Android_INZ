@@ -4,6 +4,8 @@
     package="com.inzynier.michau.przedszkoletecza">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -51,7 +53,11 @@
         <activity
             android:name=".RemarkPage"
             android:screenOrientation="portrait" />
-        <activity android:name=".ChildProgressChart"></activity>
+        <activity android:name=".ChildProgressChart" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity android:name=".SelectContext"></activity>
     </application>
 
 </manifest>

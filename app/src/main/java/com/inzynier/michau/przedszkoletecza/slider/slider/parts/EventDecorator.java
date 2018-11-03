@@ -1,4 +1,4 @@
-package com.inzynier.michau.przedszkoletecza.slider;
+package com.inzynier.michau.przedszkoletecza.slider.slider.parts;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
@@ -14,7 +14,7 @@ public class EventDecorator implements DayViewDecorator {
     private final HashSet<CalendarDay> dates;
     private final float size;
 
-    public EventDecorator(int color, Collection<CalendarDay> dates, float size) {
+    EventDecorator(int color, Collection<CalendarDay> dates, float size) {
         this.color = color;
         this.dates = new HashSet<>(dates);
         this.size = size;

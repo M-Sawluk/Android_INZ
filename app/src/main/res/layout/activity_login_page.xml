@@ -48,6 +48,7 @@
                 android:textStyle="bold"
                 android:typeface="normal"
                 android:visibility="visible"
+                style="@style/AudioFileInfoOverlayText"
                 tools:layout_editor_absoluteX="143dp"
                 tools:layout_editor_absoluteY="16dp" />
         </LinearLayout>
@@ -73,6 +74,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/anton"
             android:text="Pobieram dane.."
+            style="@style/AudioFileInfoOverlayText"
             android:textAlignment="center"
             android:textColor="@android:color/holo_orange_dark"
             android:textSize="24sp"
