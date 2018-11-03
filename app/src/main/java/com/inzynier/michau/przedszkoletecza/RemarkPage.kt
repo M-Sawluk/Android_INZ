@@ -18,6 +18,7 @@ import android.widget.Toast
 import com.inzynier.michau.przedszkoletecza.childInfo.remark.RemakrsDto
 import com.inzynier.michau.przedszkoletecza.childInfo.remark.RemarkAdapter
 import com.inzynier.michau.przedszkoletecza.data.fetcher.DataFetcher
+import com.inzynier.michau.przedszkoletecza.utils.StorageUtils
 import kotlinx.android.synthetic.main.activity_remark_page.*
 
 
@@ -36,7 +37,7 @@ class RemarkPage : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
 
         context = this
-        remarks.addAll(DataFetcher.getRemarksList(this))
+        remarks.addAll(StorageUtils.getRemarksList(this))
         remark_list_view.adapter = RemarkAdapter(this, remarks)
         remark_list_view.choiceMode = ListView.CHOICE_MODE_MULTIPLE_MODAL
 
@@ -48,7 +49,7 @@ class RemarkPage : AppCompatActivity() {
                 for (selectedRemark in selectedRemarks) {
                     dataFetcher.makeRequest("childinfo/setAsRead/${selectedRemark.id}")
                 }
-                val id = DataFetcher.getChildren(context)[0].id
+                val id = StorageUtils.getChildren(context)[0].id
                 dataFetcher.fetchChildRemarks(id)
                 val intent = Intent(context, MainPage::class.java)
                 context?.startActivity(intent)

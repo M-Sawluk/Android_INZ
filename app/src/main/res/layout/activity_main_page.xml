@@ -19,27 +19,31 @@
             android:id="@+id/slide"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="-50dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/slide" />
+            android:src="@drawable/menu" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="-50dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/logout"
-            android:visibility="gone" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:orientation="horizontal">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/switch_c"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="-50dp"
-            android:layout_marginTop="23dp"
-            android:src="@drawable/switch_context"
-            android:visibility="gone" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/switch_c"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="23dp"
+                android:src="@drawable/switch_context"
+                android:visibility="gone" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/logout"
+                android:visibility="gone" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

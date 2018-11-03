@@ -6,11 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
+import android.os.StrictMode
 import android.support.v7.app.AppCompatActivity
 import android.util.Pair
 import android.view.View
 import android.view.WindowManager
 import com.inzynier.michau.przedszkoletecza.data.fetcher.DataFetcher
+import com.inzynier.michau.przedszkoletecza.utils.StorageUtils
 import kotlinx.android.synthetic.main.activity_login_page.*
 import pl.droidsonroids.gif.GifImageView
 
@@ -22,7 +24,8 @@ class LoginPage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_page)
-        loadVal = load
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
         val token = getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE)
                 .getString(TOKEN, "")
 
@@ -60,13 +63,8 @@ class LoginPage : AppCompatActivity() {
         override fun doInBackground(vararg params: Context?): String {
             context = params[0]
             val dataFetcher = DataFetcher(activity)
-            dataFetcher.fetchChild()
-            val children = DataFetcher.getChildren(activity)
-            dataFetcher.fetchBalanceStatus(children[0].id)
-            dataFetcher.fetchAnouncements()
-            dataFetcher.fetchMessages()
-            dataFetcher.fetchAbsenceRecords()
-            dataFetcher.fetchChildRemarks(children[0].id)
+            val currentChild = StorageUtils.getCurrentChild(activity)
+            dataFetcher.fetchStartupData(currentChild)
             Thread.sleep(1000)
             val intent = Intent(context, MainPage::class.java)
             context?.startActivity(intent)

@@ -5,28 +5,27 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Environment
 import android.os.StrictMode
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.text.Html
+import android.view.Gravity
+import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
 import com.inzynier.michau.przedszkoletecza.data.fetcher.DataFetcher
 import com.inzynier.michau.przedszkoletecza.slider.SliderAdapter
+import com.inzynier.michau.przedszkoletecza.slider.slider.parts.SecondPage
+import com.inzynier.michau.przedszkoletecza.utils.Consts
+import com.inzynier.michau.przedszkoletecza.utils.PictureUtils
+import com.inzynier.michau.przedszkoletecza.utils.StorageUtils
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
-import kotlinx.android.synthetic.main.activity_main_page.*
-import android.graphics.Bitmap
-import android.view.Gravity
-import android.view.KeyEvent
-import com.inzynier.michau.przedszkoletecza.slider.slider.parts.SecondPage
-import java.io.*
-import android.view.KeyEvent.KEYCODE_BACK
-import com.inzynier.michau.przedszkoletecza.utils.Consts
+import com.transitionseverywhere.Rotate
 import com.transitionseverywhere.Slide
 import com.transitionseverywhere.TransitionManager
+import kotlinx.android.synthetic.main.activity_main_page.*
 
 
 class MainPage : AppCompatActivity() {
@@ -53,20 +52,27 @@ class MainPage : AppCompatActivity() {
             slideViewPager.currentItem = currentPage - 1
         }
         var visible = false
+        var isRotated = false
         slide.setOnClickListener {
             TransitionManager.beginDelayedTransition(top, Slide(Gravity.BOTTOM))
             visible = !visible
+            isRotated = !isRotated
             logout.visibility = if (visible) View.VISIBLE else View.GONE
             switch_c.visibility = if (visible) View.VISIBLE else View.GONE
+            TransitionManager.beginDelayedTransition(top,  Rotate())
+            slide.rotation = if (isRotated) 90f else 0f
         }
         
         logout.setOnClickListener {
             getSharedPreferences(Consts.PREFERENCES_KEY, Context.MODE_PRIVATE)
                     .edit()
                     .putString(Consts.TOKEN, "")
-                    .commit()
+                    .apply()
             startActivity(Intent(this, LoginPage::class.java))
+        }
 
+        switch_c.setOnClickListener {
+            startActivity(Intent(this, SelectContext::class.java))
         }
     }
 
@@ -135,38 +141,9 @@ class MainPage : AppCompatActivity() {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             val result = CropImage.getActivityResult(data)
             if (resultCode == Activity.RESULT_OK) {
-                val resultUri = result.uri
-                val id = DataFetcher.getChildren(this)[0].id
-                val root = Environment.getExternalStorageDirectory().toString()
-                val myDir = File("$root/saved_images")
-                if (!myDir.exists()) {
-                    myDir.mkdirs()
-                }
-                val file = File(myDir, "child_pic_$id.png")
-                if (file.exists()) {
-                    file.delete()
-                }
-                var bis : BufferedInputStream ? = null
-                var bos : BufferedOutputStream ? = null
-                try {
-                    bis = BufferedInputStream(FileInputStream(resultUri.path))
-                    bos = BufferedOutputStream(FileOutputStream(file, false))
-                    val buf = ByteArray(1024)
-                    bis.read(buf)
-                    do {
-                        bos.write(buf)
-                    } while (bis.read(buf) !== -1)
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                } finally {
-                    try {
-                        startActivity(Intent(this, MainPage::class.java))
-                        if (bis != null) bis.close()
-                        if (bos != null) bos.close()
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                }
+                val id = StorageUtils.getCurrentChild(this)
+                PictureUtils.savePicture(result.uri, id)
+                startActivity(Intent(this, MainPage::class.java))
             }
         }
     }

@@ -1,7 +1,9 @@
 package com.inzynier.michau.przedszkoletecza.childInfo;
 
 
-public class ChildModel {
+import java.io.Serializable;
+
+public class ChildModel implements Serializable {
     private final long id;
     private final String name;
     private final String pesel;

@@ -15,6 +15,7 @@ import com.inzynier.michau.przedszkoletecza.R;
 import com.inzynier.michau.przedszkoletecza.data.fetcher.DataFetcher;
 import com.inzynier.michau.przedszkoletecza.news.adapter.AnnouncmentAdapter;
 import com.inzynier.michau.przedszkoletecza.news.adapter.NewsAdapter;
+import com.inzynier.michau.przedszkoletecza.utils.StorageUtils;
 
 import org.json.JSONException;
 
@@ -36,15 +37,15 @@ public class FirstPage extends AbstractPage {
 
     @Override
     public void setUpView() throws JSONException {
-        BigDecimal bigDecimal = DataFetcher.getBalance(activity);
+        BigDecimal bigDecimal = StorageUtils.getBalance(activity);
         TextView description = view.findViewById(R.id.desciprtion);
         LinearLayout annLayout = view.findViewById(R.id.annLayout);
         LinearLayout newsLayout = view.findViewById(R.id.newsLayout);
         ListView annoucements = view.findViewById(R.id.Annoucments);
         ListView news = view.findViewById(R.id.news);
         GifImageView gif = view.findViewById(R.id.gif);
-        news.setAdapter(new NewsAdapter(activity, DataFetcher.getTrimmedNews(activity)));
-        annoucements.setAdapter(new AnnouncmentAdapter(activity, DataFetcher.getTrimmmedAnnouncement(activity)));
+        news.setAdapter(new NewsAdapter(activity, StorageUtils.getTrimmedNews(activity)));
+        annoucements.setAdapter(new AnnouncmentAdapter(activity, StorageUtils.getTrimmmedAnnouncement(activity)));
 
         if (bigDecimal.compareTo(BigDecimal.ZERO) >= 0) {
             description.setTextColor(colors[0]);

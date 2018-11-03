@@ -111,9 +111,9 @@ public class DataFetcher {
         }
     }
 
-    public void fetchAbsenceRecords() {
+    public void fetchAbsenceRecords(long id) {
         try {
-            Response response = makeRequest("childinfo/getAbsenceRecords/1");
+            Response response = makeRequest("childinfo/getAbsenceRecords/" + id);
             if (response != null && response.isSuccessful()) {
                 activity
                         .getSharedPreferences("data", Context.MODE_PRIVATE)
@@ -156,83 +156,13 @@ public class DataFetcher {
         }
     }
 
-    public static BigDecimal getBalance(Activity activity) {
-        return new BigDecimal(
-                activity
-                .getSharedPreferences("data", Context.MODE_PRIVATE)
-                .getString("balance", "-1")
-        );
-    }
 
-    public static List<ChildModel> getChildren(Activity activity) throws JSONException {
-        return ChildInfoFactory
-                .createChildren(
-                        activity
-                        .getSharedPreferences("data", Context.MODE_PRIVATE)
-                        .getString("children", "")
-                );
-    }
 
-    public static List<NewsModel> getTrimmedNews(Activity activity) throws JSONException {
-        return NewsFactory
-                .createTrimmedAnnouncements(
-                        activity
-                                .getSharedPreferences("data", Context.MODE_PRIVATE)
-                                .getString("messages", "")
-                );
-    }
-
-    public static List<NewsModel> getTrimmmedAnnouncement(Activity activity) throws JSONException {
-        return NewsFactory
-                .createTrimmedAnnouncements(
-                        activity
-                                .getSharedPreferences("data", Context.MODE_PRIVATE)
-                                .getString("announcement", "")
-                );
-    }
-
-    public static List<NewsModel> getFullNews(Activity activity) throws JSONException {
-        return NewsFactory
-                .createFullAnnouncements(
-                        activity
-                                .getSharedPreferences("data", Context.MODE_PRIVATE)
-                                .getString("messages", "")
-                );
-    }
-
-    public static List<NewsModel> getFullAnnouncement(Activity activity) throws JSONException {
-        return NewsFactory
-                .createFullAnnouncements(
-                        activity
-                                .getSharedPreferences("data", Context.MODE_PRIVATE)
-                                .getString("announcement", "")
-                );
-    }
-
-    public static List<AbsenceDto> getAbsenceRecords(Activity activity) {
-        return ChildInfoFactory
-                .createAbsences(
-                        activity
-                                .getSharedPreferences("data", Context.MODE_PRIVATE)
-                                .getString("absenceRecords", "")
-                );
-    }
-
-    public static List<RemakrsDto> getRemarksList(Activity activity) {
-        return ChildInfoFactory
-                .createRemarks(
-                        activity
-                                .getSharedPreferences("data", Context.MODE_PRIVATE)
-                                .getString("childRemarks", "")
-                );
-    }
-
-    public static List<ChildProgressDto> getProgressList(Activity activity) {
-        return ChildInfoFactory
-                .createProgressGrades(
-                        activity
-                                .getSharedPreferences("data", Context.MODE_PRIVATE)
-                                .getString("progressEvaluation", "")
-                );
+    public void fetchStartupData(long id) {
+        this.fetchBalanceStatus(id);
+        this.fetchAnouncements();
+        this.fetchMessages();
+        this.fetchAbsenceRecords(id);
+        this.fetchChildRemarks(id);
     }
 }

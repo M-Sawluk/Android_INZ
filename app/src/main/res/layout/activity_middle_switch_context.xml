@@ -2,33 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/back"
+    android:id="@+id/back_middle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/mainbggg"
+    android:clickable="true"
     android:gravity="center"
     android:orientation="vertical"
-    android:clickable="true"
     tools:context=".SelectContext">
 
     <TextView
-        android:id="@+id/chose_child"
+        android:id="@+id/loading_child"
         style="@style/AudioFileInfoOverlayText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/anton"
-        android:text="Wybierz dziecko"
-        android:transitionName="context_title_transition"
+        android:text="Pobieram dane.."
         android:textAlignment="center"
         android:textColor="@android:color/holo_orange_dark"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:transitionName="context_title_transition" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/switch_recycle_view"
-        android:layout_width="wrap_content"
-        android:clickable="true"
-        android:transitionName="recycle_transition"
-        android:layout_height="wrap_content">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/temp_pic"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:visibility="visible" />
 
-    </android.support.v7.widget.RecyclerView>
 </LinearLayout>

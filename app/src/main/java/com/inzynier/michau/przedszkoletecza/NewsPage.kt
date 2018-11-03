@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.WindowManager
 import com.inzynier.michau.przedszkoletecza.data.fetcher.DataFetcher
 import com.inzynier.michau.przedszkoletecza.data.fetcher.RequestHelper
+import com.inzynier.michau.przedszkoletecza.utils.StorageUtils
 import kotlinx.android.synthetic.main.news.*
 import java.text.SimpleDateFormat
 
@@ -20,7 +21,7 @@ class NewsPage : AppCompatActivity() {
         StrictMode.setThreadPolicy(policy)
 
         val id = intent.getIntExtra("news_id", 0)
-        val newsModel = DataFetcher.getFullNews(this)[id]
+        val newsModel = StorageUtils.getFullNews(this)[id]
         news_title_.text = newsModel.title
         news_author_.text = newsModel.author
         news_content_.text = newsModel.description

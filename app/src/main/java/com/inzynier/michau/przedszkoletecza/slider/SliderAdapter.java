@@ -33,6 +33,7 @@ import com.inzynier.michau.przedszkoletecza.news.adapter.NewsAdapter;
 import com.inzynier.michau.przedszkoletecza.slider.slider.parts.AbstractPage;
 import com.inzynier.michau.przedszkoletecza.slider.slider.parts.FirstPage;
 import com.inzynier.michau.przedszkoletecza.slider.slider.parts.provider.PageFactory;
+import com.inzynier.michau.przedszkoletecza.utils.StorageUtils;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.readystatesoftware.viewbadger.BadgeView;
@@ -126,7 +127,7 @@ public class SliderAdapter extends PagerAdapter {
         dataFetcher.fetchAnouncements();
         dataFetcher.fetchChild();
         try {
-            List<ChildModel> children = DataFetcher.getChildren(activity);
+            List<ChildModel> children = StorageUtils.getChildren(activity);
             dataFetcher.fetchBalanceStatus(children.get(0).getId());
         } catch (JSONException e) {
 

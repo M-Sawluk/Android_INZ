@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.announcement.*
 import java.text.SimpleDateFormat
 import android.graphics.BitmapFactory
 import android.graphics.Bitmap
-
+import com.inzynier.michau.przedszkoletecza.utils.StorageUtils
 
 
 class AnnoucementsPage : AppCompatActivity() {
@@ -21,7 +21,7 @@ class AnnoucementsPage : AppCompatActivity() {
         StrictMode.setThreadPolicy(policy)
 
         val id = intent.getIntExtra("ann_id", 0)
-        val newsModel = DataFetcher.getFullAnnouncement(this)[id]
+        val newsModel = StorageUtils.getFullAnnouncement(this)[id]
         ann_news_title_.text = newsModel.title
         ann_news_author_.text = newsModel.author
         ann_news_content_.text = newsModel.description

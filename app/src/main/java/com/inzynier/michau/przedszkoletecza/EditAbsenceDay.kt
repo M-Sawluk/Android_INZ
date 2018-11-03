@@ -8,6 +8,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import com.inzynier.michau.przedszkoletecza.data.PostRequester
 import com.inzynier.michau.przedszkoletecza.data.fetcher.DataFetcher
+import com.inzynier.michau.przedszkoletecza.utils.StorageUtils
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import kotlinx.android.synthetic.main.activity_edit_absence_day.*
 import org.json.JSONObject
@@ -24,7 +25,7 @@ class EditAbsenceDay : AppCompatActivity() {
 
         abs_delete.isEnabled = false
         val day = intent.getParcelableExtra<CalendarDay>("day")
-        val absenceRecords = DataFetcher.getAbsenceRecords(this)
+        val absenceRecords = StorageUtils.getAbsenceRecords(this)
         for (absenceRecord in absenceRecords) {
             if(day.equals(CalendarDay.from(absenceRecord.absenceDate))){
                 abs_reason.setText(absenceRecord.content)
@@ -64,7 +65,7 @@ class EditAbsenceDay : AppCompatActivity() {
             val makeText = Toast.makeText(this, "Wystąpił błąd", Toast.LENGTH_SHORT)
             makeText.show()
         }
-        DataFetcher(this).fetchAbsenceRecords()
+        DataFetcher(this).fetchAbsenceRecords(StorageUtils.getCurrentChild(this))
         val intent = Intent(this, MainPage::class.java)
         startActivity(intent)
     }
@@ -80,7 +81,7 @@ class EditAbsenceDay : AppCompatActivity() {
             val makeText = Toast.makeText(this, "Wystąpił błąd", Toast.LENGTH_SHORT)
             makeText.show()
         }
-        DataFetcher(this).fetchAbsenceRecords()
+        DataFetcher(this).fetchAbsenceRecords(StorageUtils.getCurrentChild(this))
         val intent = Intent(this, MainPage::class.java)
         startActivity(intent)
     }

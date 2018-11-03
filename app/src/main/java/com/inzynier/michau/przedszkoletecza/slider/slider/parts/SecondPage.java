@@ -3,9 +3,7 @@ package com.inzynier.michau.przedszkoletecza.slider.slider.parts;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -20,6 +18,8 @@ import com.inzynier.michau.przedszkoletecza.childInfo.ChildInfoFactory;
 import com.inzynier.michau.przedszkoletecza.childInfo.ChildModel;
 import com.inzynier.michau.przedszkoletecza.childInfo.remark.RemakrsDto;
 import com.inzynier.michau.przedszkoletecza.data.fetcher.DataFetcher;
+import com.inzynier.michau.przedszkoletecza.utils.PictureUtils;
+import com.inzynier.michau.przedszkoletecza.utils.StorageUtils;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.readystatesoftware.viewbadger.BadgeView;
@@ -28,14 +28,10 @@ import org.json.JSONException;
 import org.threeten.bp.DayOfWeek;
 import org.threeten.bp.LocalDate;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import pl.droidsonroids.gif.GifImageView;
 
 public class SecondPage extends AbstractPage {
     public static final int GALLERY_PICK = 12121;
@@ -48,7 +44,7 @@ public class SecondPage extends AbstractPage {
     void setUpView() throws JSONException {
         ChildModel childModel = null;
         try {
-            childModel = DataFetcher.getChildren(activity).get(0);
+            childModel = StorageUtils.getChildren(activity).get(0);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -68,7 +64,7 @@ public class SecondPage extends AbstractPage {
 
         calendar.setOnDateChangedListener((materialCalendarView, calendarDay, b) -> {
             TextView title = view.findViewById(R.id.absence);
-            List<AbsenceDto> absenceRecords = DataFetcher.getAbsenceRecords(activity);
+            List<AbsenceDto> absenceRecords = StorageUtils.getAbsenceRecords(activity);
             for (AbsenceDto absenceRecord : absenceRecords) {
                 title.setText("Nieobecności");
                 if (CalendarDay.from(absenceRecord.getAbsenceDate()).equals(calendarDay)) {
@@ -89,7 +85,7 @@ public class SecondPage extends AbstractPage {
             activity.startActivity(intent);
         });
         CircleImageView circleImage = view.findViewById(R.id.child_image);
-        List<RemakrsDto> remarks = DataFetcher.getRemarksList(activity);
+        List<RemakrsDto> remarks = StorageUtils.getRemarksList(activity);
         String newRemarksCount = ChildInfoFactory.getNewRemarksCount(remarks);
         BadgeView badgeView = new BadgeView(activity, childButtonz);
         if (!"0".equals(newRemarksCount)) {
@@ -109,22 +105,9 @@ public class SecondPage extends AbstractPage {
             activity.startActivityForResult(intent, GALLERY_PICK);
         });
 
-        long id = DataFetcher.getChildren(activity).get(0).getId();
-
-        final File file = new File(Environment.getExternalStorageDirectory()
-                .getAbsolutePath(), "/saved_images/child_pic_" + id + ".png");
-
-        if(file.exists()) {
-            try {
-                RandomAccessFile r = new RandomAccessFile(file, "r");
-                byte[] b = new byte[(int)r.length()];
-                r.readFully(b);
-                Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
-                circleImage.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        long id = StorageUtils.getCurrentChild(activity);
+        Bitmap pictureForChild = PictureUtils.getPictureForChild(id, activity);
+        circleImage.setImageBitmap(pictureForChild);
 
         name.setText(childModel.getName());
         pesel.setText(childModel.getPesel());
@@ -140,7 +123,7 @@ public class SecondPage extends AbstractPage {
         ArrayList<EventDecorator> decorators = new ArrayList<>();
         List<CalendarDay> absenceDays = ChildInfoFactory
                 .mapToCalendarDays(
-                        DataFetcher
+                        StorageUtils
                                 .getAbsenceRecords(activity)
                 );
         List<CalendarDay> presenceDays = new ArrayList<>();
