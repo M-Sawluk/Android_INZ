@@ -5,18 +5,22 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.StrictMode
 import android.support.v7.app.AppCompatActivity
-import android.view.ActionMode
-import android.view.Menu
-import android.view.MenuItem
-import android.view.WindowManager
+import android.view.*
 import android.widget.AbsListView
+import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.Toast
 import com.inzynier.michau.przedszkoletecza.childInfo.remark.RemakrsDto
 import com.inzynier.michau.przedszkoletecza.childInfo.remark.RemarkAdapter
 import com.inzynier.michau.przedszkoletecza.data.fetcher.DataFetcher
 import com.inzynier.michau.przedszkoletecza.utils.StorageUtils
+import com.transitionseverywhere.Slide
+import com.transitionseverywhere.TransitionManager
+import kotlinx.android.synthetic.main.activity_main_page.*
 import kotlinx.android.synthetic.main.activity_remark_page.*
+import android.widget.AdapterView.OnItemLongClickListener
+
+
 
 
 class RemarkPage : AppCompatActivity() {
@@ -35,48 +39,39 @@ class RemarkPage : AppCompatActivity() {
 
         context = this
         remarks.addAll(StorageUtils.getRemarksList(this))
-        remark_list_view.adapter = RemarkAdapter(this, remarks)
-        remark_list_view.choiceMode = ListView.CHOICE_MODE_MULTIPLE_MODAL
+        val remarkAdapter = RemarkAdapter(this, remarks)
+        remark_list_view.adapter = remarkAdapter
 
-        remark_list_view.setMultiChoiceModeListener(object : AbsListView.MultiChoiceModeListener {
-            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-                val makeText = Toast.makeText(context, "Uwagi zostały oznaczone jako przeczytane" , Toast.LENGTH_SHORT)
+        cancel_action_bar.setOnClickListener {
+            TransitionManager.beginDelayedTransition(top_container, Slide(Gravity.BOTTOM))
+            action_menu.visibility = View.GONE
+        }
+
+        setasread.setOnClickListener {
+            val makeText = Toast.makeText(context, "Uwaga została oznaczona jako przeczytana" , Toast.LENGTH_SHORT)
                 makeText.show()
                 val dataFetcher = DataFetcher(context)
-                for (selectedRemark in selectedRemarks) {
-                    dataFetcher.makeRequest("childinfo/setAsRead/${selectedRemark.id}")
-                }
+                dataFetcher.makeRequest("childinfo/setAsRead/${remarkAdapter.positionToDelete}")
                 val id = StorageUtils.getCurrentChildId(context)
                 dataFetcher.fetchChildRemarks(id)
-                val intent = Intent(context, MainPage::class.java)
-                context?.startActivity(intent)
-                return true
-            }
+            TransitionManager.beginDelayedTransition(top_container, Slide(Gravity.BOTTOM))
+            action_menu.visibility = View.GONE
+            startActivity(Intent(this, RemarkPage::class.java))
+        }
+    }
 
-            override fun onItemCheckedStateChanged(mode: ActionMode?, position: Int, id: Long, checked: Boolean) {
-                if(!selectedRemarks.contains(remarks[position])) {
-                    count ++
-                    mode?.title = "Ustaw jako przeczytane"
-                    selectedRemarks.add(remarks[position])
-                }
-            }
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5
+                && keyCode == KeyEvent.KEYCODE_BACK && event.repeatCount === 0) {
+            onBackPressed()
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
+    }
 
-            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                val menuInflater = mode?.menuInflater
-                menuInflater?.inflate(R.menu.menu, menu)
-                return true
-            }
-
-            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                return false
-            }
-
-            override fun onDestroyActionMode(mode: ActionMode?) {
-                selectedRemarks.clear()
-                count = 0
-            }
-
-
-        })
+    override fun onBackPressed() {
+        val setIntent = Intent(this, MainPage::class.java)
+        setIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(setIntent)
     }
 }

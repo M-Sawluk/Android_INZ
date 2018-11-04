@@ -9,16 +9,42 @@
     tools:context=".RemarkPage">
 
     <LinearLayout
+        android:id="@+id/top_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/action_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/cancel_action_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/back_arrow" />
+
+            <ImageView
+                android:id="@+id/setasread"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:visibility="visible"
+                app:srcCompat="@drawable/read" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/child_remark_title"
-            android:layout_width="wrap_content"
+            style="@style/AudioFileInfoOverlayText"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            style="@style/AudioFileInfoOverlayText"
             android:layout_weight="1"
             android:fontFamily="@font/anton"
             android:text="Uwagi dziecka"
@@ -38,4 +64,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
+
 </LinearLayout>

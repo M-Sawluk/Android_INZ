@@ -53,6 +53,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".RemarkPage"
+            android:theme="@style/AppTheme"
             android:screenOrientation="portrait" />
         <activity android:name=".ChildProgressChart" />
         <activity

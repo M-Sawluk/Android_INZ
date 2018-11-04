@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 
 import com.inzynier.michau.przedszkoletecza.R;
 import com.inzynier.michau.przedszkoletecza.childInfo.remark.RemakrsDto;
+import com.transitionseverywhere.Slide;
+import com.transitionseverywhere.TransitionManager;
 
 import org.threeten.bp.LocalDate;
 
@@ -23,6 +26,7 @@ import java.util.List;
 public class RemarkAdapter extends ArrayAdapter<RemakrsDto> {
     private List<RemakrsDto> remarks;
     private Activity activity;
+    private long positionToDelete;
 
     public RemarkAdapter(@NonNull Activity activity, List<RemakrsDto> news) {
         super(activity, R.layout.remark, news);
@@ -54,6 +58,15 @@ public class RemarkAdapter extends ArrayAdapter<RemakrsDto> {
             isPositive.setTextColor(Color.RED);
         }
 
+        convertView.setOnLongClickListener(v -> {
+            View action_menu = activity.findViewById(R.id.action_menu);
+            LinearLayout top_container = activity.findViewById(R.id.top_container);
+            TransitionManager.beginDelayedTransition(top_container, new Slide(Gravity.BOTTOM));
+            action_menu.setVisibility(View.VISIBLE);
+            positionToDelete = remarks.get(position).getId();
+            return true;
+        });
+
         if(remarks.get(position).isRead()) {
             row.setBackgroundResource(R.drawable.remark_read);
             row.setEnabled(false);
@@ -65,5 +78,9 @@ public class RemarkAdapter extends ArrayAdapter<RemakrsDto> {
         }
 
         return convertView;
+    }
+
+    public long getPositionToDelete() {
+        return positionToDelete;
     }
 }

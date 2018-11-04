@@ -1,11 +1,8 @@
 package com.inzynier.michau.przedszkoletecza
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.WindowManager
-import com.inzynier.michau.przedszkoletecza.childInfo.progress.ProgressAdapter
-import com.inzynier.michau.przedszkoletecza.utils.StorageUtils
-import kotlinx.android.synthetic.main.activity_phisical_progress.*
 
 class AdditionalAchievements : AppCompatActivity() {
 
