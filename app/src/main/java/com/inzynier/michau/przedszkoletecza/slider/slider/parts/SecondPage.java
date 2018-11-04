@@ -17,7 +17,6 @@ import com.inzynier.michau.przedszkoletecza.childInfo.AbsenceDto;
 import com.inzynier.michau.przedszkoletecza.childInfo.ChildInfoFactory;
 import com.inzynier.michau.przedszkoletecza.childInfo.ChildModel;
 import com.inzynier.michau.przedszkoletecza.childInfo.remark.RemakrsDto;
-import com.inzynier.michau.przedszkoletecza.data.fetcher.DataFetcher;
 import com.inzynier.michau.przedszkoletecza.utils.PictureUtils;
 import com.inzynier.michau.przedszkoletecza.utils.StorageUtils;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -41,10 +40,10 @@ public class SecondPage extends AbstractPage {
     }
 
     @Override
-    void setUpView() throws JSONException {
+    void setUpView() {
         ChildModel childModel = null;
         try {
-            childModel = StorageUtils.getChildren(activity).get(0);
+            childModel = StorageUtils.getCurrentChilModel(activity);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -105,7 +104,7 @@ public class SecondPage extends AbstractPage {
             activity.startActivityForResult(intent, GALLERY_PICK);
         });
 
-        long id = StorageUtils.getCurrentChild(activity);
+        long id = StorageUtils.getCurrentChildId(activity);
         Bitmap pictureForChild = PictureUtils.getPictureForChild(id, activity);
         circleImage.setImageBitmap(pictureForChild);
 
@@ -136,7 +135,7 @@ public class SecondPage extends AbstractPage {
             start = start.plusDays(1);
         }
 
-        decorators.add(new EventDecorator(Color.GREEN, presenceDays, 5f));
+        decorators.add(new EventDecorator(Color.parseColor("#FF0A8730"), presenceDays, 5f));
         decorators.add(new EventDecorator(Color.RED, absenceDays, 12));
         return decorators;
     }

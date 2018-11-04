@@ -3,6 +3,7 @@ package com.inzynier.michau.przedszkoletecza.childInfo;
 import com.inzynier.michau.przedszkoletecza.R;
 import com.inzynier.michau.przedszkoletecza.childInfo.progress.ChildProgressDto;
 import com.inzynier.michau.przedszkoletecza.childInfo.remark.RemakrsDto;
+import com.multilevelview.models.RecyclerViewItem;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import org.json.JSONArray;
@@ -11,7 +12,12 @@ import org.json.JSONObject;
 import org.threeten.bp.LocalDate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 
 public class ChildInfoFactory {
 
@@ -23,14 +29,13 @@ public class ChildInfoFactory {
             String pesel = jsonObject.getString("pesel");
             String date = "20" + pesel.substring(0, 2) + "-" + pesel.substring(2, 4) + "-" + pesel.substring(4, 6);
             String gender = Integer.parseInt(pesel.substring(10, 11)) % 2 == 0 ? "Kobieta" : "Mężczyzna";
-            int picture = gender.equals("Kobieta") ? R.drawable.girl : R.drawable.boy;
             ChildModel newsModel = new ChildModel(
                     jsonObject.getLong("id"),
                     jsonObject.getString("name") + " " + jsonObject.getString("surname"),
                     jsonObject.getString("pesel"),
                     gender,
                     date,
-                    picture);
+                    1);
             children.add(newsModel);
         }
         return children;
@@ -114,6 +119,31 @@ public class ChildInfoFactory {
                 }
             }
             return progressDtos;
+        } catch (JSONException e) {
+
+        }
+        throw new IllegalArgumentException(" Wrong json" + json);
+    }
+
+    public static Map<String, List<ChildProgressDto>> createProgressGradesMap(String json)  {
+        try {
+            Map<String, List<ChildProgressDto>> map = new HashMap<>();
+            JSONArray jsonArray = new JSONArray(json);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                List<ChildProgressDto> progressDtos = new ArrayList<>();
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String progressCategory = jsonObject.getString("progressCategory");
+                String gradeTask = jsonObject.getString("taskGradeDtos");
+                JSONArray gradeTaskArrays = new JSONArray(gradeTask);
+                for (int i1 = 0; i1 < gradeTaskArrays.length(); i1++) {
+                    JSONObject gradeTas = gradeTaskArrays.getJSONObject(i1);
+                    String progressTask = gradeTas.getString("task");
+                    String progressGrade = gradeTas.getString("grade");
+                    progressDtos.add(new ChildProgressDto("", progressTask, progressGrade));
+                }
+                map.put(progressCategory, progressDtos);
+            }
+            return map;
         } catch (JSONException e) {
 
         }

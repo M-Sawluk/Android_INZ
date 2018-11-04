@@ -65,7 +65,7 @@ class EditAbsenceDay : AppCompatActivity() {
             val makeText = Toast.makeText(this, "Wystąpił błąd", Toast.LENGTH_SHORT)
             makeText.show()
         }
-        DataFetcher(this).fetchAbsenceRecords(StorageUtils.getCurrentChild(this))
+        DataFetcher(this).fetchAbsenceRecords(StorageUtils.getCurrentChildId(this))
         val intent = Intent(this, MainPage::class.java)
         startActivity(intent)
     }
@@ -81,7 +81,7 @@ class EditAbsenceDay : AppCompatActivity() {
             val makeText = Toast.makeText(this, "Wystąpił błąd", Toast.LENGTH_SHORT)
             makeText.show()
         }
-        DataFetcher(this).fetchAbsenceRecords(StorageUtils.getCurrentChild(this))
+        DataFetcher(this).fetchAbsenceRecords(StorageUtils.getCurrentChildId(this))
         val intent = Intent(this, MainPage::class.java)
         startActivity(intent)
     }

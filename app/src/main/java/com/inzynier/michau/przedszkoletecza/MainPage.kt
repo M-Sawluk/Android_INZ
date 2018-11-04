@@ -14,7 +14,6 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
-import com.inzynier.michau.przedszkoletecza.data.fetcher.DataFetcher
 import com.inzynier.michau.przedszkoletecza.slider.SliderAdapter
 import com.inzynier.michau.przedszkoletecza.slider.slider.parts.SecondPage
 import com.inzynier.michau.przedszkoletecza.utils.Consts
@@ -141,7 +140,7 @@ class MainPage : AppCompatActivity() {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             val result = CropImage.getActivityResult(data)
             if (resultCode == Activity.RESULT_OK) {
-                val id = StorageUtils.getCurrentChild(this)
+                val id = StorageUtils.getCurrentChildId(this)
                 PictureUtils.savePicture(result.uri, id)
                 startActivity(Intent(this, MainPage::class.java))
             }

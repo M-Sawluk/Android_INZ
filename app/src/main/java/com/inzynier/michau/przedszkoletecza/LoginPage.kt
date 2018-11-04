@@ -63,7 +63,7 @@ class LoginPage : AppCompatActivity() {
         override fun doInBackground(vararg params: Context?): String {
             context = params[0]
             val dataFetcher = DataFetcher(activity)
-            val currentChild = StorageUtils.getCurrentChild(activity)
+            val currentChild = StorageUtils.getCurrentChildId(activity)
             dataFetcher.fetchStartupData(currentChild)
             Thread.sleep(1000)
             val intent = Intent(context, MainPage::class.java)

@@ -66,29 +66,13 @@ public class SliderAdapter extends PagerAdapter {
 
     }
 
-    private int[] gifs = {R.drawable.cashok, R.drawable.boy, R.drawable.cashok, R.drawable.cashok, R.drawable.cashwarning};
-
-    private int[] colors = {Color.parseColor("#FF0A8730"), Color.parseColor("#FF0A8730"), Color.parseColor("#FF0A8730"), Color.parseColor("#FF0A8730"), Color.RED};
-
-    private String[] slide_headings = {
-            "Opłaty", "Dziecko", "Komunikacja", "Zardządzanie"
-    };
-
-    private String[] slide_decriptions = {
-            "Brak zaległości", "Twoje Dziecko", "Komunikacja", "Zgłoś", "Do zapłaty: "
-    };
-
     private AbstractPage[] pages;
 
     @Override
-    public int getCount() {
-        return slide_headings.length;
-    }
+    public int getCount() { return 4; }
 
     @Override
-    public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
-        return view == o;
-    }
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object o) { return view == o; }
 
     @NonNull
     @Override
@@ -102,12 +86,7 @@ public class SliderAdapter extends PagerAdapter {
             } else if (position == 1) {
                 pages[1].initialize();
             } else {
-//                TextView description = view.findViewById(R.id.desciprtion);
-//                description.setTextColor(colors[position]);
-//                GifImageView gif = view.findViewById(R.id.gif);
-//                gif.animate();
-//                gif.setImageResource(gifs[position]);
-//                description.setText(slide_decriptions[position]);
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -120,19 +99,6 @@ public class SliderAdapter extends PagerAdapter {
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((LinearLayout) object);
-    }
-
-    public void notifyDataSetChanged(int page) {
-        DataFetcher dataFetcher = new DataFetcher(activity);
-        dataFetcher.fetchAnouncements();
-        dataFetcher.fetchChild();
-        try {
-            List<ChildModel> children = StorageUtils.getChildren(activity);
-            dataFetcher.fetchBalanceStatus(children.get(0).getId());
-        } catch (JSONException e) {
-
-        }
-        dataFetcher.fetchMessages();
     }
 
 

@@ -1,10 +1,7 @@
 package com.inzynier.michau.przedszkoletecza
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.StrictMode
 import android.support.v7.app.AppCompatActivity
@@ -49,7 +46,7 @@ class RemarkPage : AppCompatActivity() {
                 for (selectedRemark in selectedRemarks) {
                     dataFetcher.makeRequest("childinfo/setAsRead/${selectedRemark.id}")
                 }
-                val id = StorageUtils.getCurrentChild(context)
+                val id = StorageUtils.getCurrentChildId(context)
                 dataFetcher.fetchChildRemarks(id)
                 val intent = Intent(context, MainPage::class.java)
                 context?.startActivity(intent)

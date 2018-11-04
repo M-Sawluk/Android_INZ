@@ -14,7 +14,9 @@ import com.inzynier.michau.przedszkoletecza.news.model.NewsModel;
 import org.json.JSONException;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class StorageUtils {
     public static BigDecimal getBalance(Activity activity) {
@@ -88,16 +90,16 @@ public class StorageUtils {
                 );
     }
 
-    public static List<ChildProgressDto> getProgressList(Activity activity) {
+    public static Map<String, List<ChildProgressDto>> getProgressList(Activity activity) {
         return ChildInfoFactory
-                .createProgressGrades(
+                .createProgressGradesMap(
                         activity
                                 .getSharedPreferences("data", Context.MODE_PRIVATE)
                                 .getString("progressEvaluation", "")
                 );
     }
 
-    public static void setCurrentChild(Activity activity,long id) {
+    public static void setCurrentChildId(Activity activity, long id) {
         activity.getSharedPreferences(Consts.PREFERENCES_KEY, Context.MODE_PRIVATE)
                 .edit()
                 .putLong("current_child_id", id)
@@ -105,9 +107,25 @@ public class StorageUtils {
 
     }
 
-    public static long getCurrentChild(Activity activity) {
+    public static long getCurrentChildId(Activity activity) {
         return activity.getSharedPreferences(Consts.PREFERENCES_KEY, Context.MODE_PRIVATE)
                 .getLong("current_child_id", 0L);
 
     }
+
+    public static ChildModel getCurrentChilModel(Activity activity) throws JSONException {
+        long current_child_id = activity.getSharedPreferences(Consts.PREFERENCES_KEY, Context.MODE_PRIVATE)
+                .getLong("current_child_id", 0L);
+        ChildModel childModel = null;
+
+        for (ChildModel model : getChildren(activity)) {
+            if (model.getId() == current_child_id)
+                childModel = model;
+        }
+
+        return childModel;
+
+    }
+
+
 }

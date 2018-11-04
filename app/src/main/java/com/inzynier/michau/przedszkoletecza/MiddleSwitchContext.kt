@@ -34,7 +34,7 @@ class MiddleSwitchContext : AppCompatActivity() {
     inner class MyTask : AsyncTask<Long, String, String>() {
         var id: Long? = null
         override fun doInBackground(vararg params: Long?): String {
-            StorageUtils.setCurrentChild(activity, params[0]!!.or(0L))
+            StorageUtils.setCurrentChildId(activity, params[0]!!.or(0L))
             val dataFetcher = DataFetcher(activity)
             dataFetcher.fetchStartupData(params[0]!!.or(0L))
             startActivity(Intent(activity, MainPage::class.java))
