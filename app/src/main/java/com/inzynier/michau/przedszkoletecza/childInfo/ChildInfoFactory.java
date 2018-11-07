@@ -3,6 +3,7 @@ package com.inzynier.michau.przedszkoletecza.childInfo;
 import com.inzynier.michau.przedszkoletecza.R;
 import com.inzynier.michau.przedszkoletecza.childInfo.progress.ChildProgressDto;
 import com.inzynier.michau.przedszkoletecza.childInfo.remark.RemakrsDto;
+import com.inzynier.michau.przedszkoletecza.childInfo.trusted.ppl.TrustedPersonModel;
 import com.multilevelview.models.RecyclerViewItem;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
@@ -147,6 +148,29 @@ public class ChildInfoFactory {
         } catch (JSONException e) {
 
         }
+        throw new IllegalArgumentException(" Wrong json" + json);
+    }
+
+    public static List<TrustedPersonModel> getTrustedPpl(String json) {
+        try {
+            JSONArray jsonArray = new JSONArray(json);
+            List<TrustedPersonModel> trustedPpl = new ArrayList<>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Long id = jsonObject.getLong("id");
+                String name = jsonObject.getString("name");
+                String surname = jsonObject.getString("surname");
+                String civilId = jsonObject.getString("civilId");
+                String phone = jsonObject.getString("phoneNumber");
+
+                trustedPpl.add(new TrustedPersonModel(id, name, surname, civilId, phone));
+            }
+
+            return trustedPpl;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         throw new IllegalArgumentException(" Wrong json" + json);
     }
 }

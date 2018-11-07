@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/mainbggg"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context=".TrustedPersonActivity">
+
+
+    <TextView
+        android:id="@+id/textView8"
+        style="@style/AudioFileInfoOverlayText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/anton"
+        android:text="Zgłoś osobę upoważnioną"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_orange_dark"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="?android:attr/listDivider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/t_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Imię"
+            android:inputType="textPersonName"
+            android:textColor="#6c6c6c"
+            android:theme="@style/Underline" />
+
+        <TextView
+            android:id="@+id/t_validName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tylko 45 polski znaków"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:visibility="invisible" />
+
+
+        <EditText
+            android:id="@+id/t_surname"
+            android:theme="@style/Underline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#6c6c6c"
+            android:ems="10"
+            android:hint="Nazwisko"
+            android:inputType="textPersonName" />
+
+
+        <TextView
+            android:id="@+id/t_validSurname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tylko 45 polski znaków"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:visibility="invisible" />
+
+        <EditText
+            android:id="@+id/t_civilId"
+            android:theme="@style/Underline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#6c6c6c"
+            android:ems="10"
+            android:hint="Nr dowodu"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/t_validCivilId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zly format. Przyklad APZ123456"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:visibility="invisible" />
+
+        <EditText
+            android:id="@+id/t_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Nr telefonu"
+            android:inputType="phone"
+            android:textColor="#6c6c6c"
+            android:theme="@style/Underline" />
+
+        <TextView
+            android:id="@+id/t_validPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wprowadź 9 cyfr"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/addTrusted"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/news_ripple"
+            android:text="Dodaj" />
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="?android:attr/listDivider" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="top"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/t_top_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/t_action_menu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/t_cancel_action_bar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/back_arrow" />
+
+                <ImageView
+                    android:id="@+id/t_delete"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:visibility="visible"
+                    app:srcCompat="@drawable/garbage" />
+
+                <ImageView
+                    android:id="@+id/t_phone_img"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/phone" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/child_remark_title"
+                style="@style/AudioFileInfoOverlayText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/anton"
+                android:text="Zgłoszone osoby"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_orange_dark"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/trustedPpl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</LinearLayout>

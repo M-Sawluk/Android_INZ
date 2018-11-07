@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -53,8 +54,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".RemarkPage"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity android:name=".ChildProgressChart" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
@@ -64,7 +65,8 @@
         <activity android:name=".PhisicalProgress" />
         <activity android:name=".MentalProgress" />
         <activity android:name=".SocialProgress" />
-        <activity android:name=".AdditionalAchievements"></activity>
+        <activity android:name=".AdditionalAchievements" />
+        <activity android:name=".TrustedPersonActivity"></activity>
     </application>
 
 </manifest>

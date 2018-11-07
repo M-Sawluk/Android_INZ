@@ -186,19 +186,20 @@
             android:visibility="gone">
 
             <TextView
-                android:id="@+id/absence"
+                android:id="@+id/absence2"
                 style="@style/AudioFileInfoOverlayText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:fontFamily="casual"
-                android:text="Zgłoś Nieobecność"
+                android:text="Nadchodzące wydarzenia"
                 android:textAlignment="center"
                 android:textColor="@android:color/holo_orange_dark"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <com.prolificinteractive.materialcalendarview.MaterialCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/calendarView"
+            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                android:id="@+id/absenceCalendar"
                 android:layout_width="251dp"
                 android:layout_height="250dp"
                 app:mcv_selectionColor="#00F"
@@ -319,7 +320,7 @@
             android:visibility="gone">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/additional_classes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/news_ripple"
@@ -327,21 +328,21 @@
                 android:textAllCaps="true" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/notify_alergy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/news_ripple"
                 android:text="Zgłoś alergie" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/notify_consultation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/news_ripple"
                 android:text="Zapisz na konsultacje" />
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/notify_trusted_person"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/news_ripple"
@@ -357,24 +358,26 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/absence2"
+                    android:id="@+id/absence"
                     style="@style/AudioFileInfoOverlayText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:fontFamily="casual"
-                    android:text="Nadchodzące wydarzenia"
+                    android:text="Zgłoś Nieobecność"
                     android:textAlignment="center"
                     android:textColor="@android:color/holo_orange_dark"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
+
                 <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-                    android:id="@+id/absenceCalendar"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/calendarView"
                     android:layout_width="251dp"
                     android:layout_height="250dp"
                     app:mcv_selectionColor="#00F"
                     app:mcv_showOtherDates="all" />
+
             </LinearLayout>
 
         </LinearLayout>
@@ -393,11 +396,11 @@
 
                 <TextView
                     android:id="@+id/textView"
+                    style="@style/AudioFileInfoOverlayText"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/anton"
                     android:text="Forum Rodzica"
-                    style="@style/AudioFileInfoOverlayText"
                     android:textAlignment="center"
                     android:textColor="@android:color/holo_orange_dark"
                     android:textSize="30sp"
@@ -426,9 +429,9 @@
 
                 <android.support.v7.widget.CardView
                     android:layout_width="200dp"
-                    app:cardBackgroundColor="#E9B000"
                     android:layout_height="200dp"
-                    android:layout_margin="5dp">
+                    android:layout_margin="5dp"
+                    app:cardBackgroundColor="#E9B000">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -477,8 +480,8 @@
                 <android.support.v7.widget.CardView
                     android:layout_width="200dp"
                     android:layout_height="200dp"
-                    app:cardBackgroundColor="#008F95"
-                    android:layout_margin="5dp" >
+                    android:layout_margin="5dp"
+                    app:cardBackgroundColor="#008F95">
 
                     <LinearLayout
                         android:layout_width="match_parent"

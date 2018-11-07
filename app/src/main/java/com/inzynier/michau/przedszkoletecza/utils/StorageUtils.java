@@ -3,11 +3,13 @@ package com.inzynier.michau.przedszkoletecza.utils;
 import android.app.Activity;
 import android.content.Context;
 
+import com.inzynier.michau.przedszkoletecza.TrustedPersonActivity;
 import com.inzynier.michau.przedszkoletecza.childInfo.AbsenceDto;
 import com.inzynier.michau.przedszkoletecza.childInfo.ChildInfoFactory;
 import com.inzynier.michau.przedszkoletecza.childInfo.ChildModel;
 import com.inzynier.michau.przedszkoletecza.childInfo.progress.ChildProgressDto;
 import com.inzynier.michau.przedszkoletecza.childInfo.remark.RemakrsDto;
+import com.inzynier.michau.przedszkoletecza.childInfo.trusted.ppl.TrustedPersonModel;
 import com.inzynier.michau.przedszkoletecza.news.factory.NewsFactory;
 import com.inzynier.michau.przedszkoletecza.news.model.NewsModel;
 
@@ -124,6 +126,12 @@ public class StorageUtils {
         }
 
         return childModel;
+
+    }
+
+    public static List<TrustedPersonModel> getTrustedPpl(Activity activity) throws JSONException {
+        return ChildInfoFactory.getTrustedPpl(activity.getSharedPreferences("data", Context.MODE_PRIVATE)
+                .getString("trustedppl", ""));
 
     }
 

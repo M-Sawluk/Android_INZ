@@ -157,6 +157,21 @@ public class DataFetcher {
         }
     }
 
+    public void fetchTrustedPpl(long id) {
+        try {
+            Response response = makeRequest("parent/getTrustedPerson/" + id);
+            if (response != null && response.isSuccessful()) {
+                activity
+                        .getSharedPreferences("data", Context.MODE_PRIVATE)
+                        .edit()
+                        .putString("trustedppl", response.body().string())
+                        .apply();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     public void fetchStartupData(long id) {
@@ -165,6 +180,8 @@ public class DataFetcher {
         this.fetchMessages();
         this.fetchAbsenceRecords(id);
         this.fetchChildRemarks(id);
+        this.fetchChildProgress(id);
+        this.fetchTrustedPpl(id);
         StorageUtils.setCurrentChildId(activity, id);
     }
 }
