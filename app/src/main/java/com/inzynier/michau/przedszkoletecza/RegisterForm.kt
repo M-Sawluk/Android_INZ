@@ -24,7 +24,7 @@ class RegisterForm : AppCompatActivity() {
         setContentView(R.layout.activity_register_form)
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
-        zarejestruj.setOnClickListener {
+        zarejestruj_form.setOnClickListener {
             sentRegistrationData()
         }
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,

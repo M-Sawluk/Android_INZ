@@ -9,6 +9,7 @@ import com.inzynier.michau.przedszkoletecza.childInfo.ChildModel;
 import com.inzynier.michau.przedszkoletecza.news.factory.NewsFactory;
 import com.inzynier.michau.przedszkoletecza.news.model.NewsModel;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,6 +43,25 @@ public class PostRequester {
         Request request = new Request
                 .Builder()
                 .post(RequestBody.create(mediaType, jsonObject.toString()))
+                .addHeader("Authorization", token)
+                .addHeader("User-Agent", "Android")
+                .url(finalUrl)
+                .build();
+
+        return httpClient
+                .newCall(request)
+                .execute();
+    }
+
+    public Response makePostRequestWithList(String url, List<JSONObject> jsonObject) throws IOException {
+        String finalUrl = "http://35.180.163.7:8080/tecza/rest/" + url;
+        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+        String token = activity.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE)
+                .getString(TOKEN, "");
+        JSONArray jsonArray = new JSONArray(jsonObject);
+        Request request = new Request
+                .Builder()
+                .post(RequestBody.create(mediaType, jsonArray.toString()))
                 .addHeader("Authorization", token)
                 .addHeader("User-Agent", "Android")
                 .url(finalUrl)

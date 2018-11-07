@@ -14,6 +14,7 @@ import android.view.WindowManager
 import com.inzynier.michau.przedszkoletecza.data.fetcher.DataFetcher
 import com.inzynier.michau.przedszkoletecza.utils.StorageUtils
 import kotlinx.android.synthetic.main.activity_login_page.*
+import kotlinx.android.synthetic.main.activity_register_form.*
 import pl.droidsonroids.gif.GifImageView
 
 class LoginPage : AppCompatActivity() {
@@ -63,7 +64,14 @@ class LoginPage : AppCompatActivity() {
         override fun doInBackground(vararg params: Context?): String {
             context = params[0]
             val dataFetcher = DataFetcher(activity)
-            val currentChild = StorageUtils.getCurrentChildId(activity)
+            dataFetcher.fetchChild()
+            val children = StorageUtils.getChildren(activity)
+            var currentChild : Long
+            if(children.contains(StorageUtils.getCurrentChilModel(activity)))
+                currentChild = StorageUtils.getCurrentChildId(activity)
+            else
+                currentChild = children[0].id
+
             dataFetcher.fetchStartupData(currentChild)
             Thread.sleep(1000)
             val intent = Intent(context, MainPage::class.java)

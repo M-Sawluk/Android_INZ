@@ -81,13 +81,7 @@ public class SliderAdapter extends PagerAdapter {
         view = layoutInflater.inflate(R.layout.slide__layout, container, false);
         pages = PageFactory.getPages(view, activity);
         try {
-            if (position == 0) {
-                pages[0].initialize();
-            } else if (position == 1) {
-                pages[1].initialize();
-            } else {
-
-            }
+            pages[position].initialize();
         } catch (JSONException e) {
             e.printStackTrace();
         }

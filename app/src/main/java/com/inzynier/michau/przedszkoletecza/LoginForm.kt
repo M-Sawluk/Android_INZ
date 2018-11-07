@@ -26,7 +26,7 @@ class LoginForm : AppCompatActivity() {
         setContentView(R.layout.activity_login_form)
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
-        zaloguj.setOnClickListener {
+        zaloguj_form.setOnClickListener {
             login()
         }
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)

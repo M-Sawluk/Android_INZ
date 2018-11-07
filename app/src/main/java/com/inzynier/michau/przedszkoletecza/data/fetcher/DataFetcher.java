@@ -10,6 +10,7 @@ import com.inzynier.michau.przedszkoletecza.childInfo.progress.ChildProgressDto;
 import com.inzynier.michau.przedszkoletecza.childInfo.remark.RemakrsDto;
 import com.inzynier.michau.przedszkoletecza.news.factory.NewsFactory;
 import com.inzynier.michau.przedszkoletecza.news.model.NewsModel;
+import com.inzynier.michau.przedszkoletecza.utils.StorageUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -141,9 +142,9 @@ public class DataFetcher {
         }
     }
 
-    public void fetchChildProgress() {
+    public void fetchChildProgress(long id) {
         try {
-            Response response = makeRequest("childinfo/getProgrressEvaluation/1");
+            Response response = makeRequest("childinfo/getProgrressEvaluation/" + id);
             if (response != null && response.isSuccessful()) {
                 activity
                         .getSharedPreferences("data", Context.MODE_PRIVATE)
@@ -164,5 +165,6 @@ public class DataFetcher {
         this.fetchMessages();
         this.fetchAbsenceRecords(id);
         this.fetchChildRemarks(id);
+        StorageUtils.setCurrentChildId(activity, id);
     }
 }

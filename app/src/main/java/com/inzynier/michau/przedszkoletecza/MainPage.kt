@@ -90,16 +90,16 @@ class MainPage : AppCompatActivity() {
                     1 -> {
                         left.visibility = View.VISIBLE
                         left.text = "Opłaty"
-                        rigth.text = "Kontakt"
+                        rigth.text = "Zgłoś"
                     }
                     2 -> {
                         left.text = "Dziecko"
-                        rigth.text = "Zgłoś"
+                        rigth.text = "Forum"
                         rigth.visibility = View.VISIBLE
                     }
                     else -> {
                         rigth.visibility = View.INVISIBLE
-                        left.text = "Kontakt"
+                        left.text = "Zgłoś"
                     }
                 }
             }
