@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.inzynier.michau.przedszkoletecza.AlergyActivity;
+import com.inzynier.michau.przedszkoletecza.ConsultationActivity;
 import com.inzynier.michau.przedszkoletecza.EditAbsenceDay;
 import com.inzynier.michau.przedszkoletecza.R;
 import com.inzynier.michau.przedszkoletecza.TrustedPersonActivity;
@@ -63,6 +65,20 @@ public class ThirdPage extends AbstractPage {
             Intent intent = new Intent(activity, TrustedPersonActivity.class);
             activity.startActivity(intent);
         });
+
+        Button alergy = view.findViewById(R.id.notify_alergy);
+
+        alergy.setOnClickListener(v -> {
+             Intent intent = new Intent(activity, AlergyActivity.class);
+             activity.startActivity(intent); }
+        );
+
+        Button cons = view.findViewById(R.id.notify_consultation);
+
+        cons.setOnClickListener(v -> {
+            Intent intent = new Intent(activity, ConsultationActivity.class);
+            activity.startActivity(intent); }
+        );
     }
 
 

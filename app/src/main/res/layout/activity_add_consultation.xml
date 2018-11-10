@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/mainbggg"
+    tools:context=".AddConsultation">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/mainbggg"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        tools:context=".TrustedPersonActivity">
+
+
+        <TextView
+            android:id="@+id/textView8"
+            style="@style/AudioFileInfoOverlayText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/anton"
+            android:text="Zapisz się"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/divider4"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:id="@+id/teacherName"
+            style="@style/AudioFileInfoOverlayText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="casual"
+            android:text="Imie nauczyciela"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/consDay"
+            style="@style/AudioFileInfoOverlayText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="casual"
+            android:text="Dnia: "
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/teacherName3"
+            style="@style/AudioFileInfoOverlayText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="casual"
+            android:text="Wybierz godzine"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/timeSpinner"
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"
+            android:background="@drawable/news_background"
+            android:popupBackground="@drawable/news_background"
+            />
+
+        <Button
+            android:id="@+id/addConsultation"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/news_ripple"
+            android:text="Zapisz" />
+
+    </LinearLayout>
+</LinearLayout>

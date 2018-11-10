@@ -10,6 +10,9 @@ import com.inzynier.michau.przedszkoletecza.childInfo.ChildModel;
 import com.inzynier.michau.przedszkoletecza.childInfo.progress.ChildProgressDto;
 import com.inzynier.michau.przedszkoletecza.childInfo.remark.RemakrsDto;
 import com.inzynier.michau.przedszkoletecza.childInfo.trusted.ppl.TrustedPersonModel;
+import com.inzynier.michau.przedszkoletecza.consultation.ConsultationFactory;
+import com.inzynier.michau.przedszkoletecza.consultation.model.ConsultationModel;
+import com.inzynier.michau.przedszkoletecza.data.fetcher.DataFetcher;
 import com.inzynier.michau.przedszkoletecza.news.factory.NewsFactory;
 import com.inzynier.michau.przedszkoletecza.news.model.NewsModel;
 
@@ -135,5 +138,12 @@ public class StorageUtils {
 
     }
 
+    public static List<ConsultationModel> getConsultations(Activity activity) {
+        DataFetcher dataFetcher = new DataFetcher(activity);
+        dataFetcher.fetchConsultationData();
+        return ConsultationFactory.create(activity.getSharedPreferences("data", Context.MODE_PRIVATE)
+                .getString("consultations", ""));
+
+    }
 
 }

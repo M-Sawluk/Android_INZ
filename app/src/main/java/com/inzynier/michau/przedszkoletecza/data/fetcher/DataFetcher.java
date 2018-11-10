@@ -172,6 +172,20 @@ public class DataFetcher {
         }
     }
 
+    public void fetchConsultationData() {
+        try {
+            Response response = makeRequest("parent/getAvailableConsultations");
+            if (response != null && response.isSuccessful()) {
+                activity
+                        .getSharedPreferences("data", Context.MODE_PRIVATE)
+                        .edit()
+                        .putString("consultations", response.body().string())
+                        .apply();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public void fetchStartupData(long id) {
