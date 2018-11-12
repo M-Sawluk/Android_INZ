@@ -187,6 +187,36 @@ public class DataFetcher {
         }
     }
 
+    public void fetchForumData() {
+        try {
+            Response response = makeRequest("news/getTopics");
+            if (response != null && response.isSuccessful()) {
+                activity
+                        .getSharedPreferences("data", Context.MODE_PRIVATE)
+                        .edit()
+                        .putString("forum", response.body().string())
+                        .apply();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void fetchComments(long id) {
+        try {
+            Response response = makeRequest("news/getComments/" + String.valueOf(id));
+            if (response != null && response.isSuccessful()) {
+                activity
+                        .getSharedPreferences("data", Context.MODE_PRIVATE)
+                        .edit()
+                        .putString("comments", response.body().string())
+                        .apply();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void fetchStartupData(long id) {
         this.fetchBalanceStatus(id);

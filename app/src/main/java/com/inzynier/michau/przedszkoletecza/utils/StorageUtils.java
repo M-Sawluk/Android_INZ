@@ -13,6 +13,9 @@ import com.inzynier.michau.przedszkoletecza.childInfo.trusted.ppl.TrustedPersonM
 import com.inzynier.michau.przedszkoletecza.consultation.ConsultationFactory;
 import com.inzynier.michau.przedszkoletecza.consultation.model.ConsultationModel;
 import com.inzynier.michau.przedszkoletecza.data.fetcher.DataFetcher;
+import com.inzynier.michau.przedszkoletecza.forum.Comments;
+import com.inzynier.michau.przedszkoletecza.forum.ForumFactory;
+import com.inzynier.michau.przedszkoletecza.forum.Topic;
 import com.inzynier.michau.przedszkoletecza.news.factory.NewsFactory;
 import com.inzynier.michau.przedszkoletecza.news.model.NewsModel;
 
@@ -146,4 +149,23 @@ public class StorageUtils {
 
     }
 
+    public static List<Topic> getTopics(Activity activity) {
+        DataFetcher dataFetcher = new DataFetcher(activity);
+        dataFetcher.fetchForumData();
+
+        return ForumFactory.createTopics(
+                activity.getSharedPreferences("data", Context.MODE_PRIVATE)
+                        .getString("forum", "")
+        );
+    }
+
+    public static List<Comments> getComments(Activity activity, long id) {
+        DataFetcher dataFetcher = new DataFetcher(activity);
+        dataFetcher.fetchComments(id);
+
+        return ForumFactory.createComments(
+                activity.getSharedPreferences("data", Context.MODE_PRIVATE)
+                        .getString("comments", "")
+        );
+    }
 }

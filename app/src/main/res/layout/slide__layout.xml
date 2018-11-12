@@ -386,19 +386,24 @@
             android:id="@+id/forum_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:id="@+id/action_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/textView"
                     style="@style/AudioFileInfoOverlayText"
-                    android:layout_width="300dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
                     android:fontFamily="@font/anton"
                     android:text="Forum Rodzica"
                     android:textAlignment="center"
@@ -406,126 +411,33 @@
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/imageView2"
+                <LinearLayout
+                    android:id="@+id/forumAddContainer"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/plus" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="53dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/garbage" />
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+                    <ImageView
+                        android:id="@+id/addTopic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/plus" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/forumContainer"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="top|center"
-                android:orientation="horizontal">
+                android:layout_gravity="center_horizontal"
+                android:padding="2dp" />
 
-                <android.support.v7.widget.CardView
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_margin="5dp"
-                    app:cardBackgroundColor="#E9B000">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/textView3"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Tytul"
-                            android:textAlignment="center" />
-
-                        <TextView
-                            android:id="@+id/textView9"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Autor"
-                            android:textAlignment="center" />
-
-                        <TextView
-                            android:id="@+id/textView10"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Data"
-                            android:textAlignment="center" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="bottom|right"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/textView12"
-                                android:layout_width="6dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Nowych konetarzy"
-                                android:textAlignment="textEnd" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_margin="5dp"
-                    app:cardBackgroundColor="#008F95">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Tytul"
-                            android:textAlignment="center" />
-
-                        <TextView
-                            android:id="@+id/textView102"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Autor"
-                            android:textAlignment="center" />
-
-                        <TextView
-                            android:id="@+id/textView11"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Data"
-                            android:textAlignment="center" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="bottom|right"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/textView13"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Nowych komentarzy"
-                                android:textAlignment="textEnd" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

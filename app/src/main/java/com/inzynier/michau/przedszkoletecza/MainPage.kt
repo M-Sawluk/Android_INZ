@@ -25,6 +25,7 @@ import com.transitionseverywhere.Rotate
 import com.transitionseverywhere.Slide
 import com.transitionseverywhere.TransitionManager
 import kotlinx.android.synthetic.main.activity_main_page.*
+import kotlinx.android.synthetic.main.slide__layout.*
 
 
 class MainPage : AppCompatActivity() {
@@ -41,8 +42,12 @@ class MainPage : AppCompatActivity() {
         val slideViewPager = slideViewPager
         val sliderAdapter = SliderAdapter(this, this)
         slideViewPager.adapter = sliderAdapter
-        addDots(0)
+        val page = intent.getIntExtra("page", 0)
+        slideViewPager.currentItem = page
+        currentPage = page
+        addDots(page)
         dotsListener()
+        onPageSelected(page)
 
         rigth.setOnClickListener {
             slideViewPager.currentItem = currentPage + 1
@@ -73,6 +78,7 @@ class MainPage : AppCompatActivity() {
         switch_c.setOnClickListener {
             startActivity(Intent(this, SelectContext::class.java))
         }
+
     }
 
 
@@ -161,5 +167,33 @@ class MainPage : AppCompatActivity() {
         setIntent.addCategory(Intent.CATEGORY_HOME)
         setIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(setIntent)
+    }
+
+    private fun onPageSelected(i: Int) {
+        addDots(i)
+        when (i) {
+            0 -> {
+                left.visibility = View.INVISIBLE
+                rigth.visibility = View.VISIBLE
+                rigth.text = "Dziecko"
+            }
+            1 -> {
+                left.visibility = View.VISIBLE
+                rigth.visibility = View.VISIBLE
+                left.text = "Opłaty"
+                rigth.text = "Zgłoś"
+            }
+            2 -> {
+                left.text = "Dziecko"
+                rigth.text = "Forum"
+                rigth.visibility = View.VISIBLE
+                left.visibility = View.VISIBLE
+            }
+            else -> {
+                rigth.visibility = View.INVISIBLE
+                left.visibility = View.VISIBLE
+                left.text = "Zgłoś"
+            }
+        }
     }
 }

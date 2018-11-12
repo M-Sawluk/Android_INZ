@@ -14,7 +14,7 @@ public final class RequestHelper {
     private static final String PREFERENCES_KEY = "APP_SHRED_PREFS";
     private static final String TOKEN = "TOKEN";
 
-    public static Response makeRequest(String url, Activity activity) throws IOException {
+    public static Response makeRequest(String url, Activity activity) {
         String token = activity.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE)
                 .getString(TOKEN, "");
 
@@ -26,8 +26,13 @@ public final class RequestHelper {
                 .url(finalUrl)
                 .build();
 
-        return httpClient
-                .newCall(request)
-                .execute();
+        try {
+            return httpClient
+                    .newCall(request)
+                    .execute();
+        } catch (IOException e) {
+
+        }
+        return null;
     }
 }
