@@ -50,6 +50,7 @@ class AlergyActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val setIntent = Intent(this, MainPage::class.java)
         setIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        setIntent.putExtra("page",2)
         startActivity(setIntent)
     }
 }

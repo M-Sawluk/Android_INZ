@@ -7,6 +7,8 @@ import com.inzynier.michau.przedszkoletecza.TrustedPersonActivity;
 import com.inzynier.michau.przedszkoletecza.childInfo.AbsenceDto;
 import com.inzynier.michau.przedszkoletecza.childInfo.ChildInfoFactory;
 import com.inzynier.michau.przedszkoletecza.childInfo.ChildModel;
+import com.inzynier.michau.przedszkoletecza.childInfo.incoming.IncomingEvent;
+import com.inzynier.michau.przedszkoletecza.childInfo.incoming.IncomingFactory;
 import com.inzynier.michau.przedszkoletecza.childInfo.progress.ChildProgressDto;
 import com.inzynier.michau.przedszkoletecza.childInfo.remark.RemakrsDto;
 import com.inzynier.michau.przedszkoletecza.childInfo.trusted.ppl.TrustedPersonModel;
@@ -166,6 +168,16 @@ public class StorageUtils {
         return ForumFactory.createComments(
                 activity.getSharedPreferences("data", Context.MODE_PRIVATE)
                         .getString("comments", "")
+        );
+    }
+
+    public static List<IncomingEvent> getEvents(Activity activity, long id) {
+        DataFetcher dataFetcher = new DataFetcher(activity);
+        dataFetcher.fetchIncomingEvents(id);
+
+        return IncomingFactory.create(
+                activity.getSharedPreferences("data", Context.MODE_PRIVATE)
+                        .getString("incoming", "")
         );
     }
 }

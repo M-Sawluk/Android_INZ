@@ -33,7 +33,7 @@ public class ThirdPage extends AbstractPage {
     }
 
     @Override
-    void setUpView() throws JSONException {
+    void setUpView() {
         final MaterialCalendarView calendar = view.findViewById(R.id.calendarView);
         calendar.addDecorators(getMarkeDays());
         calendar.setSelectionColor(Color.BLUE);

@@ -6,16 +6,21 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.inzynier.michau.przedszkoletecza.AlergyActivity;
 import com.inzynier.michau.przedszkoletecza.ChildProgressChart;
+import com.inzynier.michau.przedszkoletecza.ConsultationActivity;
 import com.inzynier.michau.przedszkoletecza.EditAbsenceDay;
 import com.inzynier.michau.przedszkoletecza.R;
 import com.inzynier.michau.przedszkoletecza.RemarkPage;
+import com.inzynier.michau.przedszkoletecza.TrustedPersonActivity;
 import com.inzynier.michau.przedszkoletecza.childInfo.AbsenceDto;
 import com.inzynier.michau.przedszkoletecza.childInfo.ChildInfoFactory;
 import com.inzynier.michau.przedszkoletecza.childInfo.ChildModel;
+import com.inzynier.michau.przedszkoletecza.childInfo.incoming.IncomingEvent;
 import com.inzynier.michau.przedszkoletecza.childInfo.remark.RemakrsDto;
 import com.inzynier.michau.przedszkoletecza.utils.PictureUtils;
 import com.inzynier.michau.przedszkoletecza.utils.StorageUtils;
@@ -28,6 +33,7 @@ import org.threeten.bp.DayOfWeek;
 import org.threeten.bp.LocalDate;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -88,11 +94,39 @@ public class SecondPage extends AbstractPage {
         pesel.setText(childModel.getPesel());
         gender.setText(childModel.getGender());
         date.setText(childModel.getDate());
+        long currentChildId = StorageUtils.getCurrentChildId(activity);
+        List<IncomingEvent> events = StorageUtils.getEvents(activity, currentChildId);
+
+        MaterialCalendarView calendar = view.findViewById(R.id.incomingEventCalendate);
+        calendar.addDecorators(getMarkeDays(events));
+
+        calendar.setOnDateChangedListener((materialCalendarView, calendarDay, b) -> {
+            TextView title = view.findViewById(R.id.incomingTitle);
+            title.setText(title(events, calendarDay));
+        });
     }
 
 
+    private List<EventDecorator> getMarkeDays(List<IncomingEvent> incomingEvents) {
+        ArrayList<EventDecorator> decorators = new ArrayList<>();
+        Collection<CalendarDay> presenceDays = new ArrayList<>();
+
+        for (IncomingEvent event : incomingEvents) {
+            presenceDays.add(event.getDate());
+        }
+
+        decorators.add(new EventDecorator(Color.parseColor("#FF0A8730"), presenceDays, 10f));
+        return decorators;
+    }
 
 
+    private String title(List<IncomingEvent> incomingEvents, CalendarDay markedDay) {
+        for (IncomingEvent incomingEvent : incomingEvents) {
+            if (incomingEvent.getDate().equals(markedDay))
+                return incomingEvent.getComment();
+        }
+        return "Nadchodzące wydarzenia";
+    }
 
 
 }

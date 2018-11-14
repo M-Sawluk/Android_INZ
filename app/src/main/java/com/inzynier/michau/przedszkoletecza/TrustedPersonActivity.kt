@@ -137,6 +137,7 @@ class TrustedPersonActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val setIntent = Intent(this, MainPage::class.java)
+        setIntent.putExtra("page", 2)
         setIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(setIntent)
     }

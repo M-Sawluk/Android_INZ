@@ -74,6 +74,7 @@ class EditAbsenceDay : AppCompatActivity() {
         dataFetcher.fetchAbsenceRecords(StorageUtils.getCurrentChildId(this))
         dataFetcher.fetchBalanceStatus(StorageUtils.getCurrentChildId(this))
         val intent = Intent(this, MainPage::class.java)
+        intent.putExtra("page", 2)
         startActivity(intent)
     }
 
@@ -91,6 +92,7 @@ class EditAbsenceDay : AppCompatActivity() {
         }
         DataFetcher(this).fetchAbsenceRecords(StorageUtils.getCurrentChildId(this))
         val intent = Intent(this, MainPage::class.java)
+        intent.putExtra("page", 2)
         startActivity(intent)
     }
 

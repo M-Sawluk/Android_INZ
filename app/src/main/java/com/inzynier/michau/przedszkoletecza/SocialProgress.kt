@@ -15,7 +15,9 @@ class SocialProgress : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         val progressList = StorageUtils.getProgressList(this)
-        val items = progressList["Moralno-społczeny"]
+        val items = progressList["Moralno-spoleczny"]
         phisic_progress.adapter = ProgressAdapter(this, items)
     }
+
+
 }

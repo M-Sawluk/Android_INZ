@@ -217,6 +217,21 @@ public class DataFetcher {
         }
     }
 
+    public void fetchIncomingEvents(long id) {
+        try {
+            Response response = makeRequest("parent/getIncomingEvents/" + String.valueOf(id));
+            if (response != null && response.isSuccessful()) {
+                activity
+                        .getSharedPreferences("data", Context.MODE_PRIVATE)
+                        .edit()
+                        .putString("incoming", response.body().string())
+                        .apply();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void fetchStartupData(long id) {
         this.fetchBalanceStatus(id);

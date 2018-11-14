@@ -186,7 +186,7 @@
             android:visibility="gone">
 
             <TextView
-                android:id="@+id/absence2"
+                android:id="@+id/incomingTitle"
                 style="@style/AudioFileInfoOverlayText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -199,7 +199,7 @@
                 android:textStyle="bold" />
 
             <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-                android:id="@+id/absenceCalendar"
+                android:id="@+id/incomingEventCalendate"
                 android:layout_width="251dp"
                 android:layout_height="250dp"
                 app:mcv_selectionColor="#00F"
